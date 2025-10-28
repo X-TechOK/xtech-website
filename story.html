@@ -4,9 +4,340 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Story - X-Tech Enterprises</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1C888E 0%, #0F5A60 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo-img {
+            height: 50px;
+            width: auto;
+            margin-right: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1C888E 0%, #0F5A60 100%);
+            color: white;
+            padding: 150px 0 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 60px;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.1" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+        
+        /* Timeline Section */
+        .timeline-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f0f8f9 0%, #f5f9f8 100%);
+        }
+        
+        .timeline-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Horizontal Timeline */
+        .timeline-wrapper {
+            position: relative;
+            padding: 80px 0;
+        }
+        
+        /* Center connecting line */
+        .timeline-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(to right, #1C888E, #BA764C, #6D998A);
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        
+        .timeline-items {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 0 20px;
+            scroll-behavior: smooth;
+        }
+        
+        /* Timeline Item Bubble */
+        .timeline-bubble {
+            position: relative;
+            z-index: 5;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+        
+        .bubble-icon {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border: 4px solid #1C888E;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            font-size: 3rem;
+        }
+        
+        .timeline-bubble.tech .bubble-icon {
+            border-color: #BA764C;
+            background: rgba(186, 118, 76, 0.1);
+        }
+        
+        .timeline-bubble:hover .bubble-icon {
+            transform: scale(1.15);
+            box-shadow: 0 10px 40px rgba(28, 136, 142, 0.3);
+        }
+        
+        .timeline-bubble.active .bubble-icon {
+            background: linear-gradient(135deg, #1C888E 0%, #BA764C 100%);
+            color: white;
+            transform: scale(1.2);
+            box-shadow: 0 15px 50px rgba(28, 136, 142, 0.4);
+        }
+        
+        .timeline-bubble.tech.active .bubble-icon {
+            background: linear-gradient(135deg, #BA764C 0%, #6D998A 100%);
+        }
+        
+        .bubble-label {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 600;
+            color: #1C888E;
+            font-size: 0.9rem;
+        }
+        
+        .timeline-bubble.tech .bubble-label {
+            color: #BA764C;
+        }
+        
+        /* Content Display Area */
+        .timeline-content-display {
+            margin-top: 80px;
+            min-height: 200px;
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .timeline-content-display.hidden {
+            display: none;
+        }
+        
+        .timeline-content-display h2 {
+            font-size: 2rem;
+            color: #1C888E;
+            margin-bottom: 1rem;
+        }
+        
+        .timeline-content-display.tech h2 {
+            color: #BA764C;
+        }
+        
+        .timeline-content-display .year {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #BA764C;
+            margin-bottom: 1.5rem;
+        }
+        
+        .timeline-content-display p {
+            color: #666;
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+        
+        .tech-label {
+            display: inline-block;
+            background: #BA764C;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Footer */
+        footer {
+            background: #0F5A60;
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #BA764C;
+        }
+        
+        .footer-section p, .footer-section a {
+            color: #bdc3c7;
+            text-decoration: none;
+            line-height: 1.6;
+        }
+        
+        .footer-section a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #1C888E;
+            padding-top: 2rem;
+            opacity: 0.7;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .bubble-icon {
+                width: 100px;
+                height: 100px;
+                font-size: 2rem;
+                border-width: 3px;
+            }
+            
+            .timeline-items {
+                justify-content: flex-start;
+            }
+            
+            .timeline-content-display {
+                padding: 2rem;
+            }
+            
+            .timeline-content-display h2 {
+                font-size: 1.5rem;
+            }
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
 </head>
 <body>
+    <!-- Header -->
     <header>
         <nav class="container">
             <div class="logo">
@@ -21,6 +352,7 @@
         </nav>
     </header>
 
+    <!-- Hero Section -->
     <section class="hero">
         <div class="container">
             <div class="hero-content">
@@ -30,18 +362,21 @@
         </div>
     </section>
 
+    <!-- Timeline Section -->
     <section class="timeline-section">
         <div class="timeline-container">
             <div class="timeline-wrapper">
                 <div class="timeline-items" id="timelineItems">
-                    </div>
+                    <!-- Bubbles will be populated by JavaScript -->
+                </div>
             </div>
             
-            <div class="timeline-content-display" id="contentDisplay">
-                </div>
+            <!-- Content Display Area -->
+            <div class="timeline-content-display" id="contentDisplay"></div>
         </div>
     </section>
 
+    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-content">
@@ -73,6 +408,164 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        // Timeline Data - Chronological Order
+        const timelineData = [
+            {
+                year: 1997,
+                title: "Humble Beginnings",
+                icon: "🌱",
+                isXTech: true,
+                content: "Founded in Oklahoma City with a simple mission: help small businesses find and implement the right technology solutions. Early recognition that successful technology adoption requires understanding both the technical and human sides of change."
+            },
+            {
+                year: "1999-2000",
+                title: "Y2K Challenge",
+                icon: "📅",
+                isTech: true,
+                content: "The year 2000 transition demonstrated the critical importance of legacy system management and forward-thinking infrastructure planning—principles that remain central to our practice today."
+            },
+            {
+                year: 2001,
+                title: "Windows XP Era",
+                icon: "💻",
+                isTech: true,
+                content: "Enterprise computing matured with stable, user-friendly platforms, enabling broader SMB adoption of standardized IT infrastructure."
+            },
+            {
+                year: 2002,
+                title: "Managed IT Services",
+                icon: "🖥️",
+                isXTech: true,
+                content: "Transitioned into full IT Support Services for SMBs, establishing managed service expertise serving the Oklahoma City metro area. Initial vertical focus: property management and event center operations."
+            },
+            {
+                year: 2007,
+                title: "Storage Revolution",
+                icon: "⚡",
+                isTech: true,
+                content: "Solid-state drives emerged, enabling faster, more reliable computing and reshaping enterprise infrastructure strategies."
+            },
+            {
+                year: 2008,
+                title: "Document Management Evolution",
+                icon: "📄",
+                isXTech: true,
+                content: "Recognized the strategic opportunity beyond IT support. Began consulting on document management using on-premise applications, delivering direct business impact through client efficiency and profitability gains."
+            },
+            {
+                year: 2009,
+                title: "Blockchain Foundations",
+                icon: "🔗",
+                isTech: true,
+                content: "Bitcoin introduced distributed ledger technology, reshaping how organizations think about trust, data integrity, and secure record-keeping."
+            },
+            {
+                year: 2011,
+                title: "Records Management Phase 1",
+                icon: "📋",
+                isXTech: true,
+                content: "Shifted methodology to position document and records management as the foundation for workflow automation, enabling higher ROI and stronger process control across client operations."
+            },
+            {
+                year: 2013,
+                title: "eForms Implementation",
+                icon: "✍️",
+                isXTech: true,
+                content: "Deployed intelligent eForms applications that transformed user engagement. Created intuitive experiences for internal and external users, dramatically improving process lifecycle efficiency and adoption."
+            },
+            {
+                year: "2010s",
+                title: "Cloud Maturity",
+                icon: "☁️",
+                isTech: true,
+                content: "Cloud computing evolved from emerging technology to business necessity. We guided SMBs through hybrid and cloud-first transitions, unlocking new operational possibilities."
+            },
+            {
+                year: 2018,
+                title: "IDP & AI/ML Era",
+                icon: "🔍",
+                isXTech: true,
+                content: "Recognized the transformative potential of IDP and AI/ML-powered capture technology. Advanced automation could eliminate the critical digitization bottleneck that had long constrained workflow efficiency."
+            },
+            {
+                year: 2022,
+                title: "Computer Vision Advancement",
+                icon: "👁️",
+                isXTech: true,
+                content: "Adopted convolutional neural networks and modern vision technologies to replace legacy OCR. Dramatically improved accuracy in text and intelligent character recognition (ICR), further reducing digitization bottlenecks."
+            },
+            {
+                year: "2022b",
+                title: "LLMs & Generative AI",
+                icon: "🤖",
+                isTech: true,
+                content: "ChatGPT democratized LLMs, making enterprise AI accessible and sparking a new era of intelligent automation and knowledge extraction."
+            },
+            {
+                year: 2024,
+                title: "LLM-Driven AI Strategy",
+                icon: "✨",
+                isXTech: true,
+                content: "Deployed LLM-powered AI to unlock insights from dormant records repositories and business applications. More importantly, identified where NOT to use AI and how to avoid AI fatigue—helping clients implement pragmatic AI that delivers measurable outcomes."
+            },
+            {
+                year: "Today",
+                title: "Full-Stack Partner",
+                icon: "🚀",
+                isXTech: true,
+                content: "Drawing on 25+ years of evolution—from IT support to document management to AI-powered automation—we partner with SMBs to diagnose friction, architect sustainable solutions, and deliver measurable outcomes at scale."
+            }
+        ];
+
+        // Initialize Timeline
+        function initTimeline() {
+            const timelineItems = document.getElementById('timelineItems');
+            const contentDisplay = document.getElementById('contentDisplay');
+            
+            // Create bubbles
+            timelineData.forEach((item, index) => {
+                const bubble = document.createElement('div');
+                bubble.className = `timeline-bubble ${item.isTech ? 'tech' : ''} ${index === 0 ? 'active' : ''}`;
+                bubble.innerHTML = `
+                    <div class="bubble-icon">${item.icon}</div>
+                    <div class="bubble-label">${String(item.year).replace('b', '')}</div>
+                `;
+                
+                bubble.addEventListener('click', () => {
+                    // Remove active class from all bubbles
+                    document.querySelectorAll('.timeline-bubble').forEach(b => b.classList.remove('active'));
+                    
+                    // Add active class to clicked bubble
+                    bubble.classList.add('active');
+                    
+                    // Update content display
+                    displayContent(item);
+                });
+                
+                timelineItems.appendChild(bubble);
+            });
+            
+            // Display first item on load
+            displayContent(timelineData[0]);
+        }
+
+        function displayContent(item) {
+            const contentDisplay = document.getElementById('contentDisplay');
+            const techLabel = item.isTech ? '<span class="tech-label">📍 Industry Milestone</span>' : '';
+            const yearDisplay = String(item.year).replace('b', '');
+            
+            contentDisplay.className = `timeline-content-display ${item.isTech ? 'tech' : ''}`;
+            contentDisplay.innerHTML = `
+                <div class="year">${yearDisplay}</div>
+                <h2>${item.title}</h2>
+                <p>${item.content}</p>
+                ${techLabel}
+            `;
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', initTimeline);
+    </script>
 </body>
 </html>
