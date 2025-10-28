@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services - X-Tech Enterprises</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1C888E 0%, #0F5A60 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo-img {
+            height: 50px;
+            width: auto;
+            margin-right: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1C888E 0%, #0F5A60 100%);
+            color: white;
+            padding: 150px 0 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 60px;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.1" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* Service Section */
+        .service-section {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .service-section:nth-child(even) {
+            background: linear-gradient(135deg, #f0f8f9 0%, #f5f9f8 100%);
+        }
+        
+        .service-section h2 {
+            font-size: 2.5rem;
+            color: #1C888E;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .section-description {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+        
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            border: 2px solid #f0f8f9;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            border-color: #1C888E;
+        }
+        
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #1C888E 0%, #BA764C 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+        
+        .service-card h3 {
+            font-size: 1.4rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        .service-card p {
+            color: #666;
+            line-height: 1.7;
+        }
+        
+        /* Footer */
+        footer {
+            background: #0F5A60;
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #BA764C;
+        }
+        
+        .footer-section p, .footer-section a {
+            color: #bdc3c7;
+            text-decoration: none;
+            line-height: 1.6;
+        }
+        
+        .footer-section a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #1C888E;
+            padding-top: 2rem;
+            opacity: 0.7;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .service-section h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">
+                <img src="logo.png" alt="X-Tech Enterprises Logo" class="logo-img">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html#mission">Mission</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="story.html">Our Story</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Our Services</h1>
+                <p>Comprehensive solutions tailored to your business transformation needs</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SMB Support Section -->
+    <section id="smb-support" class="service-section">
+        <div class="container">
+            <h2>SMB Support & Consultation</h2>
+            <p class="section-description">Transform your small-to-medium business with comprehensive digital solutions designed for growth and stability.</p>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🚀</div>
+                    <h3>Digital Transformation Strategy</h3>
+                    <p>Develop a comprehensive roadmap to modernize your operations, align technology with business goals, and prepare your organization for sustainable growth.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🔄</div>
+                    <h3>Legacy System Modernization</h3>
+                    <p>Breathe new life into outdated systems. We strategically migrate and upgrade your legacy infrastructure to current standards without disrupting operations.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">👥</div>
+                    <h3>Change Management & Training</h3>
+                    <p>Ensure successful technology adoption with structured change management programs and comprehensive employee training that drives real engagement.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">⚙️</div>
+                    <h3>Process Optimization</h3>
+                    <p>Streamline workflows, eliminate inefficiencies, and maximize productivity by reimagining your business processes with modern best practices.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">📧</div>
+                    <h3>Google Workspace Management</h3>
+                    <p>Maximize collaboration and productivity with expert Google Workspace implementation, security setup, and ongoing management for your team.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">👨‍💼</div>
+                    <h3>Fractional CIO/COO Services</h3>
+                    <p>Access executive-level strategic guidance without the full-time cost. Our fractional leaders provide direction on technology, operations, and growth initiatives.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Consultant Consultation Section -->
+    <section id="consultant-consultation" class="service-section">
+        <div class="container">
+            <h2>Consultant Consultation²</h2>
+            <p class="section-description">Elevate your consulting practice with specialized expertise and strategic support.</p>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">📋</div>
+                    <h3>Methodology Development</h3>
+                    <p>Build a unique, repeatable methodology that differentiates your consulting practice and delivers consistent results for your clients.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">💼</div>
+                    <h3>Sales Development & Generation</h3>
+                    <p>Develop strategic sales approaches, identify target markets, and create pipelines that consistently fill your consulting calendar with ideal clients.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">📝</div>
+                    <h3>Proposal Support</h3>
+                    <p>Craft compelling, persuasive proposals that win deals. We help you articulate value, structure scopes, and close more business.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">💰</div>
+                    <h3>Project Pricing & Packaging</h3>
+                    <p>Strategic pricing models that reflect your value while maximizing profitability. From hourly to value-based models, we help you structure offerings that win.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🏗️</div>
+                    <h3>Technical Architecture Review</h3>
+                    <p>Validate your technical approach with expert architects who ensure your solutions are scalable, secure, and aligned with industry best practices.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🎓</div>
+                    <h3>Team Scaling & Training</h3>
+                    <p>Build and train the right team to scale your practice. From recruitment to onboarding to skill development, we support your growth.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">📊</div>
+                    <h3>Portfolio Management</h3>
+                    <p>Strategically manage your service portfolio to maximize revenue, margin, and alignment with your firm's long-term vision and capabilities.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🤖</div>
+                    <h3>AI Strategy & Adoption</h3>
+                    <p>Help your consulting practice and clients navigate AI adoption. From strategy to implementation, we guide the transformation of your methodologies.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Channel Partner Section -->
+    <section id="channel-partner" class="service-section">
+        <div class="container">
+            <h2>Channel Partner Product Support</h2>
+            <p class="section-description">Expert implementation and support for leading enterprise platforms and solutions.</p>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">📧</div>
+                    <h3>Google Workspace</h3>
+                    <p>Complete Google Workspace implementation, migration, security configuration, and ongoing management to maximize collaboration productivity.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🗂️</div>
+                    <h3>Laserfiche</h3>
+                    <p>Enterprise content management solutions with expert configuration, workflow automation, and integration to digitize your document processes.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">✍️</div>
+                    <h3>OneSpan Sign</h3>
+                    <p>Digital signature implementation and integration that streamlines your e-signature workflows with enterprise-grade security and compliance.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🔍</div>
+                    <h3>Grooper</h3>
+                    <p>Intelligent document capture and processing automation. We implement Grooper to extract, classify, and route documents efficiently.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">📑</div>
+                    <h3>AncoraDocs</h3>
+                    <p>Document management and workflow automation powered by AncoraDocs. Streamline your document-centric processes with expert implementation.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">📦</div>
+                    <h3>Hyland OnBase</h3>
+                    <p>Enterprise content management and process automation with Hyland OnBase. We handle implementation, customization, and optimization.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🖊️</div>
+                    <h3>DocuSign</h3>
+                    <p>Digital agreement solutions and e-signature platform implementation that transforms your document workflows and accelerates approvals.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">📊</div>
+                    <h3>Power BI</h3>
+                    <p>Business intelligence and data visualization with Power BI. From implementation to custom dashboards, we turn data into actionable insights.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🤖</div>
+                    <h3>AI Platform Integration</h3>
+                    <p>Seamless integration of leading AI platforms including Copilot, Perplexity, Gemini, OpenAI, and Anthropic Claude into your workflows and applications.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div style="display: flex; align-items: center; margin-bottom: 1rem; justify-content: center;">
+                        <img src="logo.png" alt="X-Tech Enterprises Logo" style="height: 40px; width: auto; margin-right: 10px;">
+                    </div>
+                    <p>Solving the Variables for Your Success</p>
+                    <p>Transforming businesses since 1997</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>Oklahoma City, Oklahoma</p>
+                    <p>Email: sales@x-tech.tv</p>
+                    <p>Phone: (918) 994-2722</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <p><a href="index.html">Home</a></p>
+                    <p><a href="services.html">Services</a></p>
+                    <p><a href="story.html">Our Story</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 X-Tech Enterprises, LLC. All rights reserved. | Oklahoma City, Oklahoma</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

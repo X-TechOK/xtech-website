@@ -26,7 +26,7 @@
         
         /* Header */
         header {
-            background: linear-gradient(135deg, #8FA68E 0%, #7A8F7A 100%);
+            background: linear-gradient(135deg, #1C888E 0%, #0F5A60 100%);
             color: white;
             padding: 1rem 0;
             position: fixed;
@@ -74,7 +74,7 @@
         
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, #8FA68E 0%, #7A8F7A 100%);
+            background: linear-gradient(135deg, #1C888E 0%, #0F5A60 100%);
             color: white;
             padding: 150px 0 100px;
             text-align: center;
@@ -134,7 +134,7 @@
         /* Mission Section */
         .mission {
             padding: 100px 0;
-            background: #f8f9fa;
+            background: linear-gradient(135deg, #f0f8f9 0%, #f5f9f8 100%);
         }
         
         .mission h2 {
@@ -154,7 +154,7 @@
         }
         
         .mission-highlight {
-            background: linear-gradient(135deg, #8FA68E 0%, #7A8F7A 100%);
+            background: linear-gradient(135deg, #1C888E 0%, #BA764C 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -184,7 +184,7 @@
             text-align: center;
             padding: 2rem;
             border-radius: 15px;
-            background: #f8f9fa;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f8f9 100%);
             transition: all 0.3s;
         }
         
@@ -197,7 +197,7 @@
             width: 80px;
             height: 80px;
             margin: 0 auto 1.5rem;
-            background: linear-gradient(135deg, #8FA68E 0%, #7A8F7A 100%);
+            background: linear-gradient(135deg, #1C888E 0%, #BA764C 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -220,7 +220,7 @@
         /* Story Section */
         .story {
             padding: 100px 0;
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            background: linear-gradient(135deg, #0F5A60 0%, #1C888E 100%);
             color: white;
         }
         
@@ -246,7 +246,7 @@
         .timeline-year {
             font-size: 1.5rem;
             font-weight: 700;
-            color: #8FA68E;
+            color: #BA764C;
             margin-bottom: 1rem;
         }
         
@@ -263,7 +263,7 @@
         /* Contact Section */
         .contact {
             padding: 100px 0;
-            background: #f8f9fa;
+            background: linear-gradient(135deg, #f0f8f9 0%, #f5f9f8 100%);
             text-align: center;
         }
         
@@ -291,8 +291,8 @@
         
         .contact-button {
             padding: 15px 30px;
-            border: 2px solid #8FA68E;
-            color: #8FA68E;
+            border: 2px solid #1C888E;
+            color: #1C888E;
             text-decoration: none;
             border-radius: 50px;
             font-weight: 600;
@@ -300,14 +300,14 @@
         }
         
         .contact-button:hover {
-            background: #8FA68E;
+            background: linear-gradient(135deg, #1C888E 0%, #BA764C 100%);
             color: white;
             transform: translateY(-2px);
         }
         
         /* Footer */
         footer {
-            background: #2c3e50;
+            background: #0F5A60;
             color: white;
             padding: 3rem 0;
             text-align: center;
@@ -322,7 +322,7 @@
         
         .footer-section h3 {
             margin-bottom: 1rem;
-            color: #8FA68E;
+            color: #BA764C;
         }
         
         .footer-section p, .footer-section a {
@@ -400,10 +400,10 @@
                 <img src="logo.png" alt="X-Tech Enterprises Logo" class="logo-img">
             </div>
             <ul class="nav-links">
-                <li><a href="#mission">Mission</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#story">Our Story</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="index.html#mission">Mission</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="story.html">Our Story</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
             </ul>
         </nav>
     </header>
@@ -415,7 +415,7 @@
                 <div class="hero-logo-container" style="display: flex; align-items: center; justify-content: center; margin-bottom: 2rem; gap: 30px;">
                     <img src="logo.png" alt="X-Tech Enterprises Logo" style="height: 120px; width: auto;">
                 </div>
-                <p class="tagline">The Variable That Solves for Growth</p>
+                <p class="tagline">Solving the Variables for Your Success</p>
                 <p class="subtitle">We partner with established small and medium businesses to transform legacy operations into competitive advantages through custom-tailored digital transformation and change management.</p>
                 <a href="#contact" class="cta-button">Start Your Transformation</a>
             </div>
@@ -434,89 +434,36 @@
         </div>
     </section>
 
-    <!-- Features/Services Section -->
-    <section id="services" class="features">
+    <!-- Services Preview Section -->
+    <section id="services-preview" class="features">
         <div class="container">
-            <h2>Why Choose X-Tech?</h2>
+            <h2>Our Services</h2>
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">🎯</div>
-                    <h3>Legacy Challenge Specialists</h3>
-                    <p>We understand the unique challenges of established businesses with existing processes, staff, and customer relationships that need careful transformation, not disruption.</p>
+                    <div class="feature-icon">🏢</div>
+                    <h3>SMB Support</h3>
+                    <p>Digital transformation, legacy modernization, change management, process optimization, Google Workspace management, and fractional leadership for growing businesses.</p>
+                    <a href="services.html#smb-support" style="display: inline-block; margin-top: 1rem; padding: 10px 20px; background: #1C888E; color: white; text-decoration: none; border-radius: 25px; font-weight: 600; transition: all 0.3s;">Learn More</a>
                 </div>
                 
                 <div class="feature-card">
-                    <div class="feature-icon">🔄</div>
-                    <h3>Cross-Industry Innovation</h3>
-                    <p>Unlike narrow specialists, we bring best-in-breed solutions from diverse industries, giving you competitive advantages others might miss.</p>
+                    <div class="feature-icon">👥</div>
+                    <h3>Consultant Consultation²</h3>
+                    <p>Empower your consulting practice with methodology development, sales support, proposal expertise, project pricing, technical architecture reviews, and AI strategy.</p>
+                    <a href="services.html#consultant-consultation" style="display: inline-block; margin-top: 1rem; padding: 10px 20px; background: #1C888E; color: white; text-decoration: none; border-radius: 25px; font-weight: 600; transition: all 0.3s;">Learn More</a>
                 </div>
                 
                 <div class="feature-card">
-                    <div class="feature-icon">📈</div>
-                    <h3>25+ Years of Experience</h3>
-                    <p>We've been transforming businesses since before "digital transformation" was even a term—giving us deep insight into what works and what doesn't.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">🤝</div>
-                    <h3>Long-Term Partnership</h3>
-                    <p>We're not consultants who implement and leave. We grow with you as your long-term transformation partner, ensuring sustained success.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Culture-First Approach</h3>
-                    <p>Technology adoption fails without cultural alignment. We ensure solutions fit your unique organizational culture and accelerate growth.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">🎯</div>
-                    <h3>Maximum Value, Minimum Cost</h3>
-                    <p>Our cross-industry approach and deep experience allow us to find the X-factor that delivers the highest value at the lowest cost.</p>
+                    <div class="feature-icon">🔧</div>
+                    <h3>Channel Partner Product Support</h3>
+                    <p>Expert implementation and support for Google Workspace, Laserfiche, OneSpan Sign, Grooper, Hyland OnBase, DocuSign, Power BI, and AI platform integrations.</p>
+                    <a href="services.html#channel-partner" style="display: inline-block; margin-top: 1rem; padding: 10px 20px; background: #1C888E; color: white; text-decoration: none; border-radius: 25px; font-weight: 600; transition: all 0.3s;">Learn More</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Story Section -->
-    <section id="story" class="story">
-        <div class="container">
-            <h2>Our Story</h2>
-            <div class="story-timeline">
-                <div class="timeline-item">
-                    <div class="timeline-year">1997</div>
-                    <div class="timeline-content">
-                        <h3>Humble Beginnings, Enduring Vision</h3>
-                        <p>Our journey began when our founder was in college in Oklahoma City, Oklahoma the late 90's. What started as part-time work helping local people and small businesses find the right technology solutions quickly revealed a deeper calling: the realization that successful technology adoption isn't just about selecting the right tools—it's about understanding the human side of change.</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-year">2000s</div>
-                    <div class="timeline-content">
-                        <h3>Decades of Digital Evolution</h3>
-                        <p>For over 25 years, we've been in the trenches of business transformation, watching technologies evolve from early business computing to today's AI-powered solutions. This deep historical perspective gives us something many consultants lack: we've seen what works, what doesn't, and why.</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-year">Today</div>
-                    <div class="timeline-content">
-                        <h3>The Cross-Industry Advantage</h3>
-                        <p>Unlike consultants who specialize in specific industries or technologies, we deliberately maintain a broad perspective. This cross-pollination approach allows us to bring innovative solutions from manufacturing to healthcare, from retail insights to professional services, and from startup agility to enterprise stability.</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-year">Future</div>
-                    <div class="timeline-content">
-                        <h3>Looking Forward</h3>
-                        <p>We continue to evolve alongside our clients and the technology landscape. We're developing custom solutions that will allow us to extend our proven methodologies to even more small businesses, leveraging AI and cloud technologies to make enterprise-level transformation accessible and economical for companies of all sizes.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
     <!-- Contact Section -->
     <section id="contact" class="contact">
@@ -539,7 +486,7 @@
                     <div style="display: flex; align-items: center; margin-bottom: 1rem; justify-content: center;">
                         <img src="logo.png" alt="X-Tech Enterprises Logo" style="height: 40px; width: auto; margin-right: 10px;">
                     </div>
-                    <p>The Variable That Solves for Growth</p>
+                    <p>Solving the Variables for Your Success</p>
                     <p>Transforming businesses since 1997</p>
                 </div>
                 
