@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers - X-Tech Enterprises</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1C888E 0%, #0F5A60 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo-img {
+            height: 50px;
+            width: auto;
+            margin-right: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1C888E 0%, #0F5A60 100%);
+            color: white;
+            padding: 150px 0 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.1" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero .tagline {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .hero .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.8;
+        }
+        
+        /* Section Styles */
+        .section {
+            padding: 100px 0;
+        }
+        
+        .section-light {
+            background: linear-gradient(135deg, #f0f8f9 0%, #f5f9f8 100%);
+        }
+        
+        .section-white {
+            background: white;
+        }
+        
+        .section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+        
+        .section-content {
+            max-width: 900px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+        }
+        
+        .section-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #1C888E 0%, #BA764C 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+        }
+        
+        /* Grid Sections */
+        .grid-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        .grid-card {
+            padding: 2rem;
+            border-radius: 15px;
+            background: white;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+        
+        .grid-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .grid-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #1C888E;
+        }
+        
+        .grid-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* List Styles */
+        .styled-list {
+            list-style: none;
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+        
+        .styled-list li {
+            padding: 1rem 1rem 1rem 3rem;
+            margin-bottom: 1rem;
+            background: white;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .styled-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 1rem;
+            color: #1C888E;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        /* Contact Section */
+        .contact {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #1C888E 0%, #0F5A60 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .contact h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: white;
+        }
+        
+        .contact p {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+        }
+        
+        .contact-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: white;
+            color: #1C888E;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .contact-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            background: #BA764C;
+            color: white;
+        }
+        
+        /* Footer */
+        footer {
+            background: #0F5A60;
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #BA764C;
+        }
+        
+        .footer-section p, .footer-section a {
+            color: #bdc3c7;
+            text-decoration: none;
+            line-height: 1.6;
+        }
+        
+        .footer-section a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #34495e;
+            padding-top: 2rem;
+            opacity: 0.7;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero .tagline {
+                font-size: 1.2rem;
+            }
+        }
+        
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero-content {
+            animation: fadeInUp 1s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">
+                <img src="logo.png" alt="X-Tech Enterprises Logo" class="logo-img">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html#mission">Mission</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="story.html">Our Story</a></li>
+                <li><a href="careers.html">Careers</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Join Our Team</h1>
+                <p class="tagline">Be Part of Our Growth in 2026</p>
+                <p class="subtitle">We're expanding our team across multiple roles and looking for talented individuals who are passionate about business transformation and technology.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Working Here Section -->
+    <section class="section section-light">
+        <div class="container">
+            <h2>Why Work With X-Tech?</h2>
+            <div class="section-content">
+                <p>At X-Tech Enterprises, we're not just another consulting firm. We're a team of transformation specialists who believe that <span class="highlight">technology should serve people</span>, not the other way around. Since 1997, we've been helping businesses bridge the gap between where they are and where they want to be.</p>
+                
+                <p>As we expand in 2026, we're looking for individuals who share our commitment to delivering meaningful, sustainable change for our clients. Whether you're an experienced consultant, a technical expert, or a rising professional looking to make an impact, we want to hear from you.</p>
+                
+                <p>Here, you'll work on diverse projects across multiple industries, continuously learning and growing while helping businesses solve their most challenging transformation problems.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- What We're Looking For Section -->
+    <section class="section section-white">
+        <div class="container">
+            <h2>What We're Looking For</h2>
+            <div class="section-content">
+                <p style="text-align: center; margin-bottom: 3rem;">We're expanding across multiple areas of our business in 2026. While specific roles will be posted as they become available, we're generally seeking professionals with:</p>
+            </div>
+            
+            <div class="grid-section">
+                <div class="grid-card">
+                    <h3>Consulting Excellence</h3>
+                    <p>Experience in business transformation, change management, process optimization, or digital strategy. You understand that successful transformation requires both technical expertise and people skills.</p>
+                </div>
+                
+                <div class="grid-card">
+                    <h3>Technical Depth</h3>
+                    <p>Strong technical capabilities in areas like systems integration, automation, AI implementation, or enterprise software. You can architect solutions that actually work in the real world.</p>
+                </div>
+                
+                <div class="grid-card">
+                    <h3>Client Focus</h3>
+                    <p>A genuine commitment to client success and building long-term partnerships. You measure your success by the sustainable value you create for others.</p>
+                </div>
+                
+                <div class="grid-card">
+                    <h3>Adaptability</h3>
+                    <p>Comfort working across different industries and business contexts. You thrive on variety and see each new challenge as an opportunity to learn and innovate.</p>
+                </div>
+                
+                <div class="grid-card">
+                    <h3>Communication Skills</h3>
+                    <p>Ability to translate complex technical concepts into clear, actionable business language. You can talk to both the C-suite and the implementation team.</p>
+                </div>
+                
+                <div class="grid-card">
+                    <h3>Growth Mindset</h3>
+                    <p>A passion for continuous learning and professional development. You stay current with emerging technologies and best practices without chasing every trend.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Culture Section -->
+    <section class="section section-light">
+        <div class="container">
+            <h2>Our Culture</h2>
+            <div class="section-content">
+                <p>Our culture is built on a foundation of <span class="highlight">expertise, integrity, and results</span>. We believe in:</p>
+                
+                <ul class="styled-list">
+                    <li><strong>Substance Over Flash:</strong> We focus on delivering real, measurable outcomes rather than impressive-sounding buzzwords.</li>
+                    
+                    <li><strong>Long-Term Partnerships:</strong> We're invested in our clients' sustained success, not just the next project milestone.</li>
+                    
+                    <li><strong>Continuous Learning:</strong> Technology evolves rapidly, and so do we. We invest in our team's ongoing professional development.</li>
+                    
+                    <li><strong>Cross-Industry Expertise:</strong> We draw from decades of experience across multiple sectors to bring best-in-breed solutions to every client.</li>
+                    
+                    <li><strong>Practical Innovation:</strong> We embrace new technologies when they solve real problems, not just because they're trendy.</li>
+                    
+                    <li><strong>Team Collaboration:</strong> Complex transformations require diverse perspectives. We value collaboration and knowledge sharing.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="section section-white">
+        <div class="container">
+            <h2>Growth & Benefits</h2>
+            <div class="section-content">
+                <p style="text-align: center;">As we grow, we're committed to creating an environment where our team members can thrive professionally and personally. Details about specific benefits and compensation will be discussed during the interview process, but you can expect:</p>
+            </div>
+            
+            <div class="grid-section" style="margin-top: 3rem;">
+                <div class="grid-card">
+                    <h3>Professional Development</h3>
+                    <p>Investment in your ongoing education, certifications, and skill development to keep you at the forefront of your field.</p>
+                </div>
+                
+                <div class="grid-card">
+                    <h3>Diverse Experience</h3>
+                    <p>Exposure to a wide range of industries, technologies, and business challenges that will accelerate your professional growth.</p>
+                </div>
+                
+                <div class="grid-card">
+                    <h3>Flexible Work Environment</h3>
+                    <p>We understand that great work happens in different ways. We focus on results and trust our team to work effectively.</p>
+                </div>
+                
+                <div class="grid-card">
+                    <h3>Competitive Compensation</h3>
+                    <p>Fair compensation packages that recognize your expertise and contribution to our clients' success.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact">
+        <div class="container">
+            <h2>Ready to Join Us?</h2>
+            <p>We're actively building our team for 2026. If you're passionate about helping businesses transform and want to be part of a growing company that values expertise and results, we'd love to hear from you.</p>
+            <p style="margin-bottom: 2rem;">Send your resume and a brief introduction to our HR management team. Tell us about your background, what excites you about business transformation, and why you think you'd be a great fit for X-Tech Enterprises.</p>
+            <a href="mailto:HR@x-tech.tv" class="contact-button">Contact HR Team</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div style="display: flex; align-items: center; margin-bottom: 1rem; justify-content: center;">
+                        <img src="logo.png" alt="X-Tech Enterprises Logo" style="height: 40px; width: auto; margin-right: 10px;">
+                    </div>
+                    <p>Solving the Variables for Your Success</p>
+                    <p>Transforming businesses since 1997</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>Oklahoma City, Oklahoma</p>
+                    <p>Email: sales@x-tech.tv</p>
+                    <p>Phone: (918) 994-2722</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Company</h3>
+                    <p><a href="careers.html">Careers</a></p>
+                    <p><a href="story.html">Our Story</a></p>
+                    <p><a href="index.html#mission">Mission</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 X-Tech Enterprises, LLC. All rights reserved. | Oklahoma City, Oklahoma</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

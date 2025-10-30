@@ -141,25 +141,33 @@
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2.5rem;
+            gap: 3rem;
         }
         
         .service-card {
-            background: white;
+            text-align: center;
             padding: 2rem;
             border-radius: 15px;
-            border: 2px solid #f0f8f9;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f8f9 100%);
             transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
         
         .service-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-            border-color: #1C888E;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
         
         .service-icon {
+            width: 250px;
+            height: 250px;
+            margin: -2rem auto 1.5rem auto;
+            object-fit: contain;
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 50%;
+        }
+        
+        .service-card-emoji {
             width: 70px;
             height: 70px;
             background: linear-gradient(135deg, #1C888E 0%, #BA764C 100%);
@@ -169,7 +177,7 @@
             justify-content: center;
             font-size: 2rem;
             color: white;
-            margin-bottom: 1.5rem;
+            margin: 0 auto 1.5rem;
         }
         
         .service-card h3 {
@@ -232,6 +240,11 @@
             .service-section h2 {
                 font-size: 2rem;
             }
+            
+            .service-icon {
+                width: 200px;
+                height: 200px;
+            }
         }
         
         /* Smooth Scrolling */
@@ -274,37 +287,37 @@
             
             <div class="services-grid">
                 <div class="service-card">
-                    <div class="service-icon">🚀</div>
+                    <div class="service-card-emoji">🚀</div>
                     <h3>Digital Transformation Strategy</h3>
                     <p>Develop a comprehensive roadmap to modernize your operations, align technology with business goals, and prepare your organization for sustainable growth.</p>
                 </div>
                 
                 <div class="service-card">
-                    <div class="service-icon">🔄</div>
+                    <div class="service-card-emoji">🔄</div>
                     <h3>Legacy System Modernization</h3>
                     <p>Breathe new life into outdated systems. We strategically migrate and upgrade your legacy infrastructure to current standards without disrupting operations.</p>
                 </div>
                 
                 <div class="service-card">
-                    <div class="service-icon">👥</div>
+                    <div class="service-card-emoji">👥</div>
                     <h3>Change Management & Training</h3>
                     <p>Ensure successful technology adoption with structured change management programs and comprehensive employee training that drives real engagement.</p>
                 </div>
                 
                 <div class="service-card">
-                    <div class="service-icon">⚙️</div>
+                    <div class="service-card-emoji">⚙️</div>
                     <h3>Process Optimization</h3>
                     <p>Streamline workflows, eliminate inefficiencies, and maximize productivity by reimagining your business processes with modern best practices.</p>
                 </div>
                 
                 <div class="service-card">
-                    <div class="service-icon">📧</div>
+                    <div class="service-card-emoji">📧</div>
                     <h3>Google Workspace Management</h3>
                     <p>Maximize collaboration and productivity with expert Google Workspace implementation, security setup, and ongoing management for your team.</p>
                 </div>
                 
                 <div class="service-card">
-                    <div class="service-icon">👨‍💼</div>
+                    <div class="service-card-emoji">👨‍💼</div>
                     <h3>Fractional CIO/COO Services</h3>
                     <p>Access executive-level strategic guidance without the full-time cost. Our fractional leaders provide direction on technology, operations, and growth initiatives.</p>
                 </div>
@@ -320,49 +333,49 @@
             
             <div class="services-grid">
                 <div class="service-card">
-                    <div class="service-icon">📋</div>
+                    <div class="service-card-emoji">📋</div>
                     <h3>Methodology Development</h3>
                     <p>Build a unique, repeatable methodology that differentiates your consulting practice and delivers consistent results for your clients.</p>
                 </div>
                 
                 <div class="service-card">
-                    <div class="service-icon">💼</div>
+                    <div class="service-card-emoji">💼</div>
                     <h3>Sales Development & Generation</h3>
                     <p>Develop strategic sales approaches, identify target markets, and create pipelines that consistently fill your consulting calendar with ideal clients.</p>
                 </div>
                 
                 <div class="service-card">
-                    <div class="service-icon">📝</div>
+                    <div class="service-card-emoji">📝</div>
                     <h3>Proposal Support</h3>
                     <p>Craft compelling, persuasive proposals that win deals. We help you articulate value, structure scopes, and close more business.</p>
                 </div>
                 
                 <div class="service-card">
-                    <div class="service-icon">💰</div>
+                    <div class="service-card-emoji">💰</div>
                     <h3>Project Pricing & Packaging</h3>
                     <p>Strategic pricing models that reflect your value while maximizing profitability. From hourly to value-based models, we help you structure offerings that win.</p>
                 </div>
                 
                 <div class="service-card">
-                    <div class="service-icon">🏗️</div>
+                    <div class="service-card-emoji">🏗️</div>
                     <h3>Technical Architecture Review</h3>
                     <p>Validate your technical approach with expert architects who ensure your solutions are scalable, secure, and aligned with industry best practices.</p>
                 </div>
                 
                 <div class="service-card">
-                    <div class="service-icon">🎓</div>
+                    <div class="service-card-emoji">🎓</div>
                     <h3>Team Scaling & Training</h3>
                     <p>Build and train the right team to scale your practice. From recruitment to onboarding to skill development, we support your growth.</p>
                 </div>
                 
                 <div class="service-card">
-                    <div class="service-icon">📊</div>
+                    <div class="service-card-emoji">📊</div>
                     <h3>Portfolio Management</h3>
                     <p>Strategically manage your service portfolio to maximize revenue, margin, and alignment with your firm's long-term vision and capabilities.</p>
                 </div>
                 
                 <div class="service-card">
-                    <div class="service-icon">🤖</div>
+                    <div class="service-card-emoji">🤖</div>
                     <h3>AI Strategy & Adoption</h3>
                     <p>Help your consulting practice and clients navigate AI adoption. From strategy to implementation, we guide the transformation of your methodologies.</p>
                 </div>
@@ -378,40 +391,40 @@
             
             <div class="services-grid">
                 <div class="service-card">
-                    <div class="service-icon">📧</div>
+                    <div class="service-card-emoji">📧</div>
                     <h3>Google Workspace</h3>
                     <p>Complete Google Workspace implementation, migration, security configuration, and ongoing management to maximize collaboration productivity.</p>
                 </div>
                 
                 <div class="service-card">
-                    <div class="service-icon">🗂️</div>
+                    <div class="service-card-emoji">🗂️</div>
                     <h3>Enterprise Content Management & Records Management</h3>
                     <p><strong>Flagship: Laserfiche</strong></p>
                     <p>Complete content management and records lifecycle solutions. We implement Laserfiche and Hyland OnBase to digitize document processes, establish governance frameworks, ensure compliance, and create auditable records management systems.</p>
                 </div>
                 
                 <div class="service-card">
-                    <div class="service-icon">✍️</div>
+                    <div class="service-card-emoji">✍️</div>
                     <h3>eSignature Intelligence</h3>
                     <p><strong>Flagship Partner: OneSpan Sign</strong></p>
                     <p>Digital agreement and e-signature solutions that streamline your contract lifecycle. We implement OneSpan Sign and DocuSign with intelligence layers that automate approvals, enforce compliance, and accelerate the deal cycle.</p>
                 </div>
                 
                 <div class="service-card">
-                    <div class="service-icon">🔍</div>
+                    <div class="service-card-emoji">🔍</div>
                     <h3>Intelligent Document Processing</h3>
                     <p>Intelligent document capture, classification, and extraction that transforms how you handle incoming content. Whether scanning vendor invoices, processing forms, or managing correspondence, IDP extracts structured data and routes documents intelligently.</p>
                     <p><strong>Solutions:</strong> Grooper, AncoraDocs, Laserfiche Cloud, Tungsten Automation</p>
                 </div>
                 
                 <div class="service-card">
-                    <div class="service-icon">📊</div>
+                    <div class="service-card-emoji">📊</div>
                     <h3>Power BI</h3>
                     <p>Business intelligence and data visualization with Power BI. From implementation to custom dashboards, we turn data into actionable insights.</p>
                 </div>
                 
                 <div class="service-card">
-                    <div class="service-icon">🤖</div>
+                    <div class="service-card-emoji">🤖</div>
                     <h3>AI Platform Integration</h3>
                     <p>Seamless integration of leading AI platforms including Copilot, Perplexity, Gemini, OpenAI, and Anthropic Claude into your workflows and applications.</p>
                 </div>
