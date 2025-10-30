@@ -1,0 +1,18 @@
+# Site settings
+title: X-Tech Enterprises
+description: Solving the Variables for Your Success
+baseurl: "" # Leave empty for GitHub Pages root domain
+url: "" # Your GitHub Pages URL will go here
+
+# Build settings
+markdown: kramdown
+
+# Exclude files from processing
+exclude:
+  - README.md
+  - LICENSE
+
+# Include directories
+include:
+  - _includes
+  - _layouts
