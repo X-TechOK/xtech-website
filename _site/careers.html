@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 </section>
 
-    
+
     <!-- Footer -->
 <footer>
     <div class="container">
@@ -212,12 +212,418 @@ document.addEventListener('DOMContentLoaded', function() {
                 <p><a href="story.html">Our Story</a></p>
                 <p><a href="index.html#mission">Mission</a></p>
             </div>
+
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/company/x-tech-enterprises" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Visit our LinkedIn profile">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
         </div>
         <div class="footer-bottom">
             <p>&copy; 2025 X-Tech Enterprises, LLC. All rights reserved. | Oklahoma City, Oklahoma</p>
         </div>
     </div>
 </footer>
+
+    <!-- LLM-Powered Intelligent Chat Widget with Calendar Scheduling -->
+<div id="chat-widget">
+    <!-- Chat Button -->
+    <button id="chat-button" class="chat-button" aria-label="Open chat">
+        <svg class="chat-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+        <span class="chat-badge">1</span>
+    </button>
+
+    <!-- Chat Window -->
+    <div id="chat-window" class="chat-window">
+        <div class="chat-header">
+            <div class="chat-header-info">
+                <img src="logo.png" alt="X-Tech" class="chat-logo">
+                <div>
+                    <h3>X-Tech AI Assistant</h3>
+                    <p class="chat-status"><span class="status-dot"></span> Online</p>
+                </div>
+            </div>
+            <button id="minimize-chat" class="minimize-button" aria-label="Minimize chat">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+            </button>
+        </div>
+
+        <div class="chat-body">
+            <div class="chat-messages" id="chat-messages">
+                <!-- Messages will be added here dynamically -->
+            </div>
+
+            <!-- Typing Indicator -->
+            <div class="typing-indicator" id="typing-indicator" style="display: none;">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <!-- Chat Input -->
+            <div class="chat-input-container" id="chat-input-container">
+                <textarea id="chat-input" placeholder="Ask me anything..." rows="1"></textarea>
+                <button type="button" id="send-button" class="chat-send-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Contact Form (Hidden Initially) -->
+            <div class="contact-form-container" id="contact-form-container" style="display: none;">
+                <form id="contact-form">
+                    <input type="text" id="contact-name" placeholder="Your name *" required>
+                    <input type="email" id="contact-email" placeholder="Your email *" required>
+                    <input type="tel" id="contact-phone" placeholder="Your phone (optional)">
+                    <textarea id="contact-message" placeholder="Your message *" rows="3" required></textarea>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                    <button type="button" class="cancel-btn" id="cancel-form">Back to Chat</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="chat-footer">
+            <p>Powered by X-Tech AI • <a href="tel:+1-405-247-0083" style="color: inherit;">Call (405) 247-0083</a></p>
+        </div>
+    </div>
+</div>
+
+<script>
+// ============================================
+// CONFIGURATION
+// ============================================
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxVyIEVATSSRSf3R5Y283F8DRgBX9X6zPIQtr7HD0-zH__se72ToVsfwKCH1DRaTc5fsA/exec';
+const CALENDAR_URL = 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ2uSOKodtmVHB_wPc6rUDklUM8oSZb-pTpbh-B0quILGAjkbSwmtRCR88ARiRgIMSwZ7ERBwBRG?gv=true';
+
+// ============================================
+// LLM-Powered Chatbot System
+// ============================================
+document.addEventListener('DOMContentLoaded', function() {
+    const chatButton = document.getElementById('chat-button');
+    const chatWindow = document.getElementById('chat-window');
+    const minimizeChat = document.getElementById('minimize-chat');
+    const chatMessages = document.getElementById('chat-messages');
+    const chatInput = document.getElementById('chat-input');
+    const sendButton = document.getElementById('send-button');
+    const chatBadge = document.querySelector('.chat-badge');
+    const typingIndicator = document.getElementById('typing-indicator');
+    const chatInputContainer = document.getElementById('chat-input-container');
+    const contactFormContainer = document.getElementById('contact-form-container');
+    const contactForm = document.getElementById('contact-form');
+    const cancelFormBtn = document.getElementById('cancel-form');
+
+    let chatOpen = false;
+    let conversationHistory = [];
+    let isProcessing = false;
+
+    // ============================================
+    // Initialize Chat
+    // ============================================
+    function initializeChat() {
+        addBotMessage(`Hi there! 👋<br><br>I'm the X-Tech AI Assistant. I can answer questions about our services, pricing, company, and more.<br><br>How can I help you today?`);
+
+        // Show badge after delay
+        setTimeout(() => {
+            chatBadge.style.display = 'flex';
+        }, 3000);
+    }
+
+    // ============================================
+    // Message Management
+    // ============================================
+    function addMessage(text, isBot = false, includeActions = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${isBot ? 'bot-message' : 'user-message'}`;
+
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+        let actionsHtml = '';
+        if (includeActions) {
+            actionsHtml = `
+                <div class="message-actions">
+                    <button class="action-btn schedule-btn" onclick="window.open('${CALENDAR_URL}', '_blank')">
+                        📅 Schedule a Call
+                    </button>
+                    <button class="action-btn form-btn" onclick="document.getElementById('chat-input-container').style.display='none'; document.getElementById('contact-form-container').style.display='block'; document.getElementById('contact-name').focus();">
+                        ✉️ Send Message
+                    </button>
+                </div>
+            `;
+        }
+
+        messageDiv.innerHTML = `
+            <div class="message-content">${text}</div>
+            ${actionsHtml}
+            <span class="message-time">${timeString}</span>
+        `;
+
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // Store in conversation history (strip HTML)
+        conversationHistory.push({
+            sender: isBot ? 'bot' : 'user',
+            message: text.replace(/<[^>]*>/g, ''),
+            timestamp: now.toISOString()
+        });
+    }
+
+    function addBotMessage(text, delay = 0, includeActions = false) {
+        if (delay > 0) {
+            showTypingIndicator();
+            setTimeout(() => {
+                hideTypingIndicator();
+                addMessage(text, true, includeActions);
+            }, delay);
+        } else {
+            addMessage(text, true, includeActions);
+        }
+    }
+
+    function showTypingIndicator() {
+        typingIndicator.style.display = 'flex';
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function hideTypingIndicator() {
+        typingIndicator.style.display = 'none';
+    }
+
+    // ============================================
+    // LLM Chat Function
+    // ============================================
+    async function getLLMResponse(userMessage) {
+        try {
+            showTypingIndicator();
+
+            const response = await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    action: 'chat',
+                    message: userMessage,
+                    conversationHistory: conversationHistory,
+                    pageUrl: window.location.href,
+                    timestamp: new Date().toISOString()
+                })
+            });
+
+            const data = await response.json();
+            hideTypingIndicator();
+
+            if (data.status === 'success') {
+                const includeActions = data.needsHuman || false;
+                addBotMessage(data.message, 0, includeActions);
+            } else {
+                throw new Error(data.message || 'Unknown error');
+            }
+
+        } catch (error) {
+            hideTypingIndicator();
+            console.error('LLM Error:', error);
+
+            // Fallback response
+            addBotMessage(`I'm having trouble connecting right now. 😕<br><br>You can:<br>• Call us: (405) 247-0083<br>• Email: sales@x-tech.tv<br>• Try asking again in a moment`, 0, true);
+        }
+    }
+
+    // ============================================
+    // UI Event Handlers
+    // ============================================
+    chatButton.addEventListener('click', function() {
+        chatOpen = !chatOpen;
+        chatWindow.classList.toggle('open');
+        chatButton.classList.toggle('open');
+        chatBadge.style.display = 'none';
+
+        if (chatOpen && chatMessages.children.length === 0) {
+            initializeChat();
+        }
+
+        if (chatOpen) {
+            chatInput.focus();
+        }
+    });
+
+    minimizeChat.addEventListener('click', function() {
+        chatWindow.classList.remove('open');
+        chatButton.classList.remove('open');
+        chatOpen = false;
+    });
+
+    // Send message
+    async function sendMessage() {
+        const message = chatInput.value.trim();
+
+        if (message && !isProcessing) {
+            isProcessing = true;
+            sendButton.disabled = true;
+
+            addMessage(message, false);
+            chatInput.value = '';
+            chatInput.style.height = 'auto';
+
+            // Get LLM response
+            await getLLMResponse(message);
+
+            isProcessing = false;
+            sendButton.disabled = false;
+            chatInput.focus();
+        }
+    }
+
+    sendButton.addEventListener('click', sendMessage);
+
+    chatInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+
+    // Auto-resize textarea
+    chatInput.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+    });
+
+    // ============================================
+    // Contact Form Management
+    // ============================================
+    function hideContactForm() {
+        contactFormContainer.style.display = 'none';
+        chatInputContainer.style.display = 'flex';
+        chatInput.focus();
+    }
+
+    cancelFormBtn.addEventListener('click', hideContactForm);
+
+    // ============================================
+    // Form Submission
+    // ============================================
+    contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const name = document.getElementById('contact-name').value.trim();
+        const email = document.getElementById('contact-email').value.trim();
+        const phone = document.getElementById('contact-phone').value.trim();
+        const message = document.getElementById('contact-message').value.trim();
+
+        const submitBtn = contactForm.querySelector('.submit-btn');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Sending...';
+        submitBtn.disabled = true;
+
+        try {
+            const response = await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    action: 'submit_form',
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    message: message,
+                    conversationHistory: conversationHistory,
+                    timestamp: new Date().toISOString(),
+                    source: 'LLM Chat Widget',
+                    pageUrl: window.location.href
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.status === 'success') {
+                hideContactForm();
+                addBotMessage(`✅ Thank you, ${name}! Your message has been received.<br><br>We'll get back to you at ${email} within 24 hours.<br><br>For urgent matters, call us at (405) 247-0083.`, 500);
+                contactForm.reset();
+            } else {
+                throw new Error(data.message || 'Submission failed');
+            }
+
+        } catch (error) {
+            console.error('Submission error:', error);
+            addBotMessage(`❌ <strong>Submission Error</strong><br><br>Please try emailing us directly at sales@x-tech.tv or call (405) 247-0083.`, 500);
+            hideContactForm();
+        } finally {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }
+    });
+});
+</script>
+
+<style>
+/* Message Actions (Schedule/Contact buttons) */
+.message-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.action-btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 1;
+    min-width: 120px;
+}
+
+.schedule-btn {
+    background: linear-gradient(135deg, #1C888E 0%, #0F5A60 100%);
+    color: white;
+}
+
+.schedule-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(28, 136, 142, 0.4);
+}
+
+.form-btn {
+    background: white;
+    color: #1C888E;
+    border: 2px solid #1C888E;
+}
+
+.form-btn:hover {
+    background: #1C888E;
+    color: white;
+}
+
+.chat-footer a {
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.chat-footer a:hover {
+    text-decoration: underline;
+}
+</style>
 
 </body>
 </html>
