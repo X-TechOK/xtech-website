@@ -180,18 +180,19 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             showTypingIndicator();
 
+            // Use FormData to avoid CORS preflight
+            const formData = new FormData();
+            formData.append('payload', JSON.stringify({
+                action: 'chat',
+                message: userMessage,
+                conversationHistory: conversationHistory,
+                pageUrl: window.location.href,
+                timestamp: new Date().toISOString()
+            }));
+
             const response = await fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    action: 'chat',
-                    message: userMessage,
-                    conversationHistory: conversationHistory,
-                    pageUrl: window.location.href,
-                    timestamp: new Date().toISOString()
-                })
+                body: formData
             });
 
             const data = await response.json();
@@ -301,22 +302,23 @@ document.addEventListener('DOMContentLoaded', function() {
         submitBtn.disabled = true;
 
         try {
+            // Use FormData to avoid CORS preflight
+            const formData = new FormData();
+            formData.append('payload', JSON.stringify({
+                action: 'submit_form',
+                name: name,
+                email: email,
+                phone: phone,
+                message: message,
+                conversationHistory: conversationHistory,
+                timestamp: new Date().toISOString(),
+                source: 'LLM Chat Widget',
+                pageUrl: window.location.href
+            }));
+
             const response = await fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    action: 'submit_form',
-                    name: name,
-                    email: email,
-                    phone: phone,
-                    message: message,
-                    conversationHistory: conversationHistory,
-                    timestamp: new Date().toISOString(),
-                    source: 'LLM Chat Widget',
-                    pageUrl: window.location.href
-                })
+                body: formData
             });
 
             const data = await response.json();
