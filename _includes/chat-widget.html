@@ -1,4 +1,4 @@
-<!-- Intelligent Chat Widget -->
+<!-- LLM-Powered Intelligent Chat Widget with Calendar Scheduling -->
 <div id="chat-widget">
     <!-- Chat Button -->
     <button id="chat-button" class="chat-button" aria-label="Open chat">
@@ -18,7 +18,7 @@
             <div class="chat-header-info">
                 <img src="logo.png" alt="X-Tech" class="chat-logo">
                 <div>
-                    <h3>X-Tech Assistant</h3>
+                    <h3>X-Tech AI Assistant</h3>
                     <p class="chat-status"><span class="status-dot"></span> Online</p>
                 </div>
             </div>
@@ -39,14 +39,6 @@
                 <span></span>
                 <span></span>
                 <span></span>
-            </div>
-
-            <!-- Quick Action Buttons -->
-            <div class="quick-actions" id="quick-actions">
-                <button class="quick-action-btn" data-action="contact">📞 Contact Info</button>
-                <button class="quick-action-btn" data-action="services">💼 Our Services</button>
-                <button class="quick-action-btn" data-action="hours">🕐 Business Hours</button>
-                <button class="quick-action-btn" data-action="human">👤 Talk to Human</button>
             </div>
 
             <!-- Chat Input -->
@@ -74,19 +66,20 @@
         </div>
 
         <div class="chat-footer">
-            <p>Powered by X-Tech AI Assistant</p>
+            <p>Powered by X-Tech AI • <a href="tel:+1-405-247-0083" style="color: inherit;">Call (405) 247-0083</a></p>
         </div>
     </div>
 </div>
 
 <script>
 // ============================================
-// CONFIGURATION - Update this with your Google Apps Script URL
+// CONFIGURATION
 // ============================================
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxVyIEVATSSRSf3R5Y283F8DRgBX9X6zPIQtr7HD0-zH__se72ToVsfwKCH1DRaTc5fsA/exec';
+const CALENDAR_URL = 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ2uSOKodtmVHB_wPc6rUDklUM8oSZb-pTpbh-B0quILGAjkbSwmtRCR88ARiRgIMSwZ7ERBwBRG?gv=true';
 
 // ============================================
-// Intelligent Chatbot System
+// LLM-Powered Chatbot System
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
     const chatButton = document.getElementById('chat-button');
@@ -97,7 +90,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const sendButton = document.getElementById('send-button');
     const chatBadge = document.querySelector('.chat-badge');
     const typingIndicator = document.getElementById('typing-indicator');
-    const quickActions = document.getElementById('quick-actions');
     const chatInputContainer = document.getElementById('chat-input-container');
     const contactFormContainer = document.getElementById('contact-form-container');
     const contactForm = document.getElementById('contact-form');
@@ -105,78 +97,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let chatOpen = false;
     let conversationHistory = [];
-
-    // ============================================
-    // Knowledge Base - Add/Edit Q&A Here
-    // ============================================
-    const knowledgeBase = {
-        contact: {
-            keywords: ['contact', 'phone', 'email', 'call', 'reach', 'address', 'location', 'where'],
-            response: `📞 <strong>Contact Information:</strong><br><br>
-                <strong>Phone:</strong> (405) 247-0083<br>
-                <strong>Email:</strong> sales@x-tech.tv<br>
-                <strong>Location:</strong> Oklahoma City, Oklahoma<br><br>
-                You can also <a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2uSOKodtmVHB_wPc6rUDklUM8oSZb-pTpbh-B0quILGAjkbSwmtRCR88ARiRgIMSwZ7ERBwBRG?gv=true" target="_blank">schedule a call</a> with us!`
-        },
-        hours: {
-            keywords: ['hours', 'open', 'closed', 'available', 'time', 'when', 'schedule'],
-            response: `🕐 <strong>Business Hours:</strong><br><br>
-                We're available Monday through Friday, 8:00 AM - 6:00 PM Central Time.<br><br>
-                For urgent matters outside business hours, please email us at sales@x-tech.tv and we'll respond as soon as possible.`
-        },
-        services: {
-            keywords: ['service', 'offer', 'do', 'help', 'provide', 'consulting', 'transformation', 'what'],
-            response: `💼 <strong>Our Services:</strong><br><br>
-                <strong>1. SMB Support:</strong> Digital transformation, legacy modernization, change management, and Google Workspace management<br><br>
-                <strong>2. Consultant Consultation:</strong> Methodology development, sales support, proposal expertise, and AI strategy<br><br>
-                <strong>3. Product Services:</strong> Implementation for Google Workspace, Laserfiche, OneSpan Sign, Grooper, and more<br><br>
-                Visit our <a href="services.html">Services page</a> for details!`
-        },
-        pricing: {
-            keywords: ['price', 'cost', 'fee', 'rate', 'charge', 'expensive', 'budget', 'quote'],
-            response: `💰 <strong>Pricing:</strong><br><br>
-                Our pricing is customized based on your specific needs and project scope. We offer:<br><br>
-                • Free initial consultation<br>
-                • Transparent pricing with no hidden fees<br>
-                • Flexible engagement models<br><br>
-                Would you like to speak with someone about pricing for your specific needs?`
-        },
-        about: {
-            keywords: ['about', 'who', 'company', 'history', 'story', 'founded', 'experience'],
-            response: `🏢 <strong>About X-Tech Enterprises:</strong><br><br>
-                We've been transforming businesses since 1997! Led by seasoned executives, we specialize in bridging strategy and execution across dozens of industries.<br><br>
-                Our mission: Partner with SMBs to transform legacy operations into competitive advantages through custom-tailored digital transformation.<br><br>
-                Learn more on our <a href="story.html">Story page</a>!`
-        },
-        careers: {
-            keywords: ['career', 'job', 'hiring', 'work', 'employment', 'position', 'join'],
-            response: `💼 <strong>Careers at X-Tech:</strong><br><br>
-                We're always looking for talented individuals who are passionate about business transformation!<br><br>
-                Check out our <a href="careers.html">Careers page</a> to see current opportunities and learn about working with us.`
-        },
-        google: {
-            keywords: ['google workspace', 'gmail', 'google', 'workspace', 'g suite', 'google drive'],
-            response: `☁️ <strong>Google Workspace Services:</strong><br><br>
-                We're experts in Google Workspace! We provide:<br><br>
-                • Migration & Setup<br>
-                • Administration & Management<br>
-                • Training & Support<br>
-                • Custom integrations<br><br>
-                We can help you get the most out of Google Workspace!`
-        },
-        location: {
-            keywords: ['oklahoma', 'okc', 'local', 'nearby', 'remote'],
-            response: `📍 <strong>Location & Service Area:</strong><br><br>
-                We're based in Oklahoma City, Oklahoma, but we serve clients nationwide!<br><br>
-                We offer both on-site and remote services depending on your needs.`
-        }
-    };
+    let isProcessing = false;
 
     // ============================================
     // Initialize Chat
     // ============================================
     function initializeChat() {
-        addBotMessage(`Hi there! 👋<br><br>I'm the X-Tech AI Assistant. I can help you with information about our services, contact details, and more.<br><br>How can I help you today?`);
+        addBotMessage(`Hi there! 👋<br><br>I'm the X-Tech AI Assistant. I can answer questions about our services, pricing, company, and more.<br><br>How can I help you today?`);
 
         // Show badge after delay
         setTimeout(() => {
@@ -187,38 +114,53 @@ document.addEventListener('DOMContentLoaded', function() {
     // ============================================
     // Message Management
     // ============================================
-    function addMessage(text, isBot = false) {
+    function addMessage(text, isBot = false, includeActions = false) {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${isBot ? 'bot-message' : 'user-message'}`;
 
         const now = new Date();
         const timeString = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
 
+        let actionsHtml = '';
+        if (includeActions) {
+            actionsHtml = `
+                <div class="message-actions">
+                    <button class="action-btn schedule-btn" onclick="window.open('${CALENDAR_URL}', '_blank')">
+                        📅 Schedule a Call
+                    </button>
+                    <button class="action-btn form-btn" onclick="document.getElementById('chat-input-container').style.display='none'; document.getElementById('contact-form-container').style.display='block'; document.getElementById('contact-name').focus();">
+                        ✉️ Send Message
+                    </button>
+                </div>
+            `;
+        }
+
         messageDiv.innerHTML = `
             <div class="message-content">${text}</div>
+            ${actionsHtml}
             <span class="message-time">${timeString}</span>
         `;
 
         chatMessages.appendChild(messageDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
 
-        // Store in conversation history
+        // Store in conversation history (strip HTML)
         conversationHistory.push({
             sender: isBot ? 'bot' : 'user',
-            message: text.replace(/<[^>]*>/g, ''), // Strip HTML for history
+            message: text.replace(/<[^>]*>/g, ''),
             timestamp: now.toISOString()
         });
     }
 
-    function addBotMessage(text, delay = 0) {
+    function addBotMessage(text, delay = 0, includeActions = false) {
         if (delay > 0) {
             showTypingIndicator();
             setTimeout(() => {
                 hideTypingIndicator();
-                addMessage(text, true);
+                addMessage(text, true, includeActions);
             }, delay);
         } else {
-            addMessage(text, true);
+            addMessage(text, true, includeActions);
         }
     }
 
@@ -232,34 +174,43 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ============================================
-    // Intelligent Response System
+    // LLM Chat Function
     // ============================================
-    function getIntelligentResponse(userMessage) {
-        const lowerMessage = userMessage.toLowerCase();
+    async function getLLMResponse(userMessage) {
+        try {
+            showTypingIndicator();
 
-        // Check each knowledge base entry
-        for (const [key, data] of Object.entries(knowledgeBase)) {
-            for (const keyword of data.keywords) {
-                if (lowerMessage.includes(keyword)) {
-                    return data.response;
-                }
+            const response = await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    action: 'chat',
+                    message: userMessage,
+                    conversationHistory: conversationHistory,
+                    pageUrl: window.location.href,
+                    timestamp: new Date().toISOString()
+                })
+            });
+
+            const data = await response.json();
+            hideTypingIndicator();
+
+            if (data.status === 'success') {
+                const includeActions = data.needsHuman || false;
+                addBotMessage(data.message, 0, includeActions);
+            } else {
+                throw new Error(data.message || 'Unknown error');
             }
-        }
 
-        // If asking for human help
-        if (lowerMessage.includes('human') || lowerMessage.includes('person') ||
-            lowerMessage.includes('representative') || lowerMessage.includes('agent') ||
-            lowerMessage.includes('talk to someone')) {
-            return 'human_escalation';
-        }
+        } catch (error) {
+            hideTypingIndicator();
+            console.error('LLM Error:', error);
 
-        // Default response if no match
-        return `I'd be happy to help! I can provide information about:<br><br>
-            • Our services and pricing<br>
-            • Contact information and business hours<br>
-            • Our company and team<br>
-            • Career opportunities<br><br>
-            Or, I can connect you with a team member. What would you like to know?`;
+            // Fallback response
+            addBotMessage(`I'm having trouble connecting right now. 😕<br><br>You can:<br>• Call us: (405) 247-0083<br>• Email: sales@x-tech.tv<br>• Try asking again in a moment`, 0, true);
+        }
     }
 
     // ============================================
@@ -286,40 +237,24 @@ document.addEventListener('DOMContentLoaded', function() {
         chatOpen = false;
     });
 
-    // Quick action buttons
-    document.querySelectorAll('.quick-action-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const action = this.getAttribute('data-action');
-
-            if (action === 'human') {
-                showContactForm();
-            } else if (knowledgeBase[action]) {
-                addMessage(this.textContent, false);
-                addBotMessage(knowledgeBase[action].response, 800);
-            }
-        });
-    });
-
     // Send message
-    function sendMessage() {
+    async function sendMessage() {
         const message = chatInput.value.trim();
 
-        if (message) {
+        if (message && !isProcessing) {
+            isProcessing = true;
+            sendButton.disabled = true;
+
             addMessage(message, false);
             chatInput.value = '';
             chatInput.style.height = 'auto';
 
-            // Get intelligent response
-            const response = getIntelligentResponse(message);
+            // Get LLM response
+            await getLLMResponse(message);
 
-            if (response === 'human_escalation') {
-                addBotMessage(`I'll connect you with our team right away! Please fill out this quick form and we'll get back to you shortly.`, 800);
-                setTimeout(() => {
-                    showContactForm();
-                }, 1600);
-            } else {
-                addBotMessage(response, 1000);
-            }
+            isProcessing = false;
+            sendButton.disabled = false;
+            chatInput.focus();
         }
     }
 
@@ -341,24 +276,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // ============================================
     // Contact Form Management
     // ============================================
-    function showContactForm() {
-        chatInputContainer.style.display = 'none';
-        quickActions.style.display = 'none';
-        contactFormContainer.style.display = 'block';
-        document.getElementById('contact-name').focus();
-    }
-
     function hideContactForm() {
         contactFormContainer.style.display = 'none';
         chatInputContainer.style.display = 'flex';
-        quickActions.style.display = 'grid';
         chatInput.focus();
     }
 
     cancelFormBtn.addEventListener('click', hideContactForm);
 
     // ============================================
-    // Form Submission with Google Sheets Integration
+    // Form Submission
     // ============================================
     contactForm.addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -368,47 +295,43 @@ document.addEventListener('DOMContentLoaded', function() {
         const phone = document.getElementById('contact-phone').value.trim();
         const message = document.getElementById('contact-message').value.trim();
 
-        // Disable form while submitting
         const submitBtn = contactForm.querySelector('.submit-btn');
         const originalText = submitBtn.textContent;
         submitBtn.textContent = 'Sending...';
         submitBtn.disabled = true;
 
         try {
-            // Check if Google Script URL is configured
-            if (GOOGLE_SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
-                throw new Error('Google Apps Script URL not configured. Please see setup instructions.');
-            }
-
-            // Send to Google Apps Script
             const response = await fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
-                mode: 'no-cors', // Required for Google Apps Script
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
+                    action: 'submit_form',
                     name: name,
                     email: email,
                     phone: phone,
                     message: message,
                     conversationHistory: conversationHistory,
                     timestamp: new Date().toISOString(),
-                    source: 'Website Chat Widget',
+                    source: 'LLM Chat Widget',
                     pageUrl: window.location.href
                 })
             });
 
-            // Success! (no-cors mode doesn't allow reading response, but we assume success)
-            hideContactForm();
-            addBotMessage(`✅ Thank you, ${name}! Your message has been received.<br><br>We'll get back to you at ${email} within 24 hours.<br><br>For urgent matters, call us at (405) 247-0083.`, 500);
+            const data = await response.json();
 
-            // Reset form
-            contactForm.reset();
+            if (data.status === 'success') {
+                hideContactForm();
+                addBotMessage(`✅ Thank you, ${name}! Your message has been received.<br><br>We'll get back to you at ${email} within 24 hours.<br><br>For urgent matters, call us at (405) 247-0083.`, 500);
+                contactForm.reset();
+            } else {
+                throw new Error(data.message || 'Submission failed');
+            }
 
         } catch (error) {
             console.error('Submission error:', error);
-            addBotMessage(`❌ <strong>Submission Error</strong><br><br>${error.message}<br><br>Please try emailing us directly at sales@x-tech.tv or call (405) 247-0083.`, 500);
+            addBotMessage(`❌ <strong>Submission Error</strong><br><br>Please try emailing us directly at sales@x-tech.tv or call (405) 247-0083.`, 500);
             hideContactForm();
         } finally {
             submitBtn.textContent = originalText;
@@ -417,3 +340,55 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+
+<style>
+/* Message Actions (Schedule/Contact buttons) */
+.message-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.action-btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 1;
+    min-width: 120px;
+}
+
+.schedule-btn {
+    background: linear-gradient(135deg, #1C888E 0%, #0F5A60 100%);
+    color: white;
+}
+
+.schedule-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(28, 136, 142, 0.4);
+}
+
+.form-btn {
+    background: white;
+    color: #1C888E;
+    border: 2px solid #1C888E;
+}
+
+.form-btn:hover {
+    background: #1C888E;
+    color: white;
+}
+
+.chat-footer a {
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.chat-footer a:hover {
+    text-decoration: underline;
+}
+</style>
