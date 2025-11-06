@@ -75,7 +75,7 @@
 // ============================================
 // CONFIGURATION
 // ============================================
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxVyIEVATSSRSf3R5Y283F8DRgBX9X6zPIQtr7HD0-zH__se72ToVsfwKCH1DRaTc5fsA/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyGG9RydFdpKDYLsflPzcljk0DZ1ntrmAEkJ4SAM6FNUa64vSnRglIjlFot01TCOFW7/exec';
 const CALENDAR_URL = 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ2uSOKodtmVHB_wPc6rUDklUM8oSZb-pTpbh-B0quILGAjkbSwmtRCR88ARiRgIMSwZ7ERBwBRG?gv=true';
 
 // ============================================
@@ -114,12 +114,66 @@ document.addEventListener('DOMContentLoaded', function() {
     // ============================================
     // Message Management
     // ============================================
+    function formatBotMessage(text) {
+        // Convert markdown-style formatting to HTML
+        let formatted = text;
+
+        // Convert **bold** to <strong>
+        formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+        // Split into lines
+        let lines = formatted.split('\n');
+        let html = '';
+        let inList = false;
+
+        for (let i = 0; i < lines.length; i++) {
+            let line = lines[i].trim();
+
+            if (!line) {
+                // Empty line - close list if open, add spacing
+                if (inList) {
+                    html += '</ul>';
+                    inList = false;
+                }
+                html += '<br>';
+                continue;
+            }
+
+            // Check if line is a bullet point (starts with - or *)
+            if (line.match(/^[-*]\s+/)) {
+                if (!inList) {
+                    html += '<ul style="margin: 0.5em 0; padding-left: 1.5em;">';
+                    inList = true;
+                }
+                // Remove the bullet character and add as list item
+                html += '<li>' + line.replace(/^[-*]\s+/, '') + '</li>';
+            } else {
+                // Regular line
+                if (inList) {
+                    html += '</ul>';
+                    inList = false;
+                }
+                html += line + '<br>';
+            }
+        }
+
+        // Close list if still open
+        if (inList) {
+            html += '</ul>';
+        }
+
+        return html;
+    }
+
     function addMessage(text, isBot = false, includeActions = false) {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${isBot ? 'bot-message' : 'user-message'}`;
 
         const now = new Date();
         const timeString = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+        // Format bot messages to convert markdown to HTML
+        const formattedText = isBot ? formatBotMessage(text) : text;
 
         let actionsHtml = '';
         if (includeActions) {
@@ -136,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         messageDiv.innerHTML = `
-            <div class="message-content">${text}</div>
+            <div class="message-content">${formattedText}</div>
             ${actionsHtml}
             <span class="message-time">${timeString}</span>
         `;
@@ -344,6 +398,31 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <style>
+/* Message Content Formatting */
+.message-content {
+    line-height: 1.5;
+}
+
+.message-content ul {
+    margin: 0.5em 0;
+    padding-left: 1.5em;
+}
+
+.message-content li {
+    margin: 0.25em 0;
+}
+
+.message-content br + br {
+    display: block;
+    content: "";
+    margin-top: 0.5em;
+}
+
+.message-content strong {
+    font-weight: 600;
+    color: inherit;
+}
+
 /* Message Actions (Schedule/Contact buttons) */
 .message-actions {
     display: flex;
