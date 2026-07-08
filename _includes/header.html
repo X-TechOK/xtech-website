@@ -2,7 +2,9 @@
 <header>
     <nav class="container">
         <div class="logo">
-            <img src="logo.png" alt="X-Tech Enterprises Logo" class="logo-img">
+            <a href="index.html" aria-label="X-Tech Enterprises home">
+                <img src="logo.webp" alt="X-Tech Enterprises Logo" class="logo-img" width="141" height="48">
+            </a>
         </div>
         <button class="mobile-menu-toggle" aria-label="Toggle navigation menu">
             <span></span>
@@ -10,11 +12,12 @@
             <span></span>
         </button>
         <ul class="nav-links">
-            <li><a href="index.html#mission">Mission</a></li>
             <li><a href="services.html">Services</a></li>
+            <li><a href="index.html#dna">Corporate DNA™</a></li>
             <li><a href="story.html">Our Story</a></li>
             <li><a href="careers.html">Careers</a></li>
             <li><a href="index.html#contact">Contact</a></li>
+            <li><a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2uSOKodtmVHB_wPc6rUDklUM8oSZb-pTpbh-B0quILGAjkbSwmtRCR88ARiRgIMSwZ7ERBwBRG?gv=true" target="_blank" rel="noopener" class="nav-cta" data-track="nav_book_call">Book a Call</a></li>
         </ul>
     </nav>
 </header>
@@ -24,12 +27,12 @@
 document.addEventListener('DOMContentLoaded', function() {
     const menuToggle = document.querySelector('.mobile-menu-toggle');
     const navLinks = document.querySelector('.nav-links');
-    
+
     menuToggle.addEventListener('click', function() {
         navLinks.classList.toggle('active');
         menuToggle.classList.toggle('active');
     });
-    
+
     // Close menu when clicking on a link
     const links = document.querySelectorAll('.nav-links a');
     links.forEach(link => {

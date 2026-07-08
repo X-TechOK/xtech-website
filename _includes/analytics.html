@@ -1,0 +1,40 @@
+{% if site.ga4_id != "" %}
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ site.ga4_id }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ site.ga4_id }}');
+</script>
+{% endif %}
+{% if site.clarity_id != "" %}
+<!-- Microsoft Clarity (heatmaps + session recordings) -->
+<script>
+  (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window, document, "clarity", "script", "{{ site.clarity_id }}");
+</script>
+{% endif %}
+<!-- Conversion event tracking: fires GA4 events for the actions that matter.
+     Safe when GA4 is not configured (checks for gtag first). -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  function track(name, params) {
+    if (typeof gtag === 'function') gtag('event', name, params || {});
+    if (typeof clarity === 'function') clarity('event', name);
+  }
+  window.xtechTrack = track; // used by the chat widget too
+  document.body.addEventListener('click', function(e) {
+    var a = e.target.closest('a, button');
+    if (!a) return;
+    var href = a.getAttribute('href') || '';
+    if (href.indexOf('tel:') === 0) track('phone_click', {location: window.location.pathname});
+    else if (href.indexOf('mailto:') === 0) track('email_click', {location: window.location.pathname});
+    else if (href.indexOf('calendar.google.com') !== -1) track('schedule_click', {location: window.location.pathname});
+    else if (a.dataset.track) track(a.dataset.track, {location: window.location.pathname});
+  });
+});
+</script>

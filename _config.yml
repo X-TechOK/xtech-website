@@ -1,16 +1,22 @@
 # Site settings
 title: X-Tech Enterprises
-description: Solving the Variables for Your Success
+description: Business transformation, intelligent automation, and enterprise software implementation for growing businesses. Oklahoma City, serving clients nationwide since 1997.
 baseurl: "" # Leave empty for GitHub Pages root domain
-url: "" # Your GitHub Pages URL will go here
+url: "https://x-tech.tv"
+
+# Analytics — paste your real IDs here after creating accounts (see SETUP-TRACKING-AND-SEO.md)
+# Leave blank to disable. Nothing breaks while blank.
+ga4_id: ""        # looks like G-XXXXXXXXXX (from analytics.google.com)
+clarity_id: ""    # looks like abcd1234ef (from clarity.microsoft.com)
 
 # Build settings
 markdown: kramdown
 
 # Exclude files from processing
 exclude:
-  - README.md
+  - "*.md"          # documentation stays in the repo but off the live site
   - LICENSE
+  - preview-home.html   # local preview only
 
 # Include directories
 include:

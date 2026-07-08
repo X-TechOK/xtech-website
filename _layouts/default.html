@@ -3,14 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ page.title }} - X-Tech Enterprises</title>
+
+    <!-- Primary SEO -->
+    <title>{{ page.title }} | X-Tech Enterprises</title>
+    <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+    <link rel="canonical" href="{{ site.url }}{{ page.url | replace: 'index.html', '' }}">
+
+    <!-- Open Graph (how links look when shared on LinkedIn, Facebook, etc.) -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="X-Tech Enterprises">
+    <meta property="og:title" content="{{ page.title }} | X-Tech Enterprises">
+    <meta property="og:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+    <meta property="og:url" content="{{ site.url }}{{ page.url | replace: 'index.html', '' }}">
+    <meta property="og:image" content="{{ site.url }}/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter / X cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ page.title }} | X-Tech Enterprises">
+    <meta name="twitter:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+    <meta name="twitter:image" content="{{ site.url }}/og-image.png">
+
+    <!-- Icons -->
     <link rel="icon" type="image/png" href="{{ site.baseurl }}/favicon.png">
-    <link rel="shortcut icon" type="image/png" href="{{ site.baseurl }}/favicon.png">
+    <link rel="apple-touch-icon" href="{{ site.baseurl }}/favicon.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css">
+
+    <!-- Structured data: tells Google and AI assistants exactly what this business is -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "@id": "https://x-tech.tv/#organization",
+      "name": "X-Tech Enterprises, LLC",
+      "url": "https://x-tech.tv/",
+      "logo": "https://x-tech.tv/logo.png",
+      "image": "https://x-tech.tv/og-image.png",
+      "description": "Business transformation consultancy specializing in digital transformation, intelligent automation, change management, and enterprise software implementation for small and medium businesses.",
+      "foundingDate": "1997",
+      "email": "sales@x-tech.tv",
+      "telephone": "+1-405-247-0083",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Oklahoma City",
+        "addressRegion": "OK",
+        "addressCountry": "US"
+      },
+      "areaServed": "United States",
+      "sameAs": ["https://www.linkedin.com/company/x-tech-enterprises"],
+      "knowsAbout": ["Digital Transformation", "Intelligent Automation", "Change Management", "Process Optimization", "Google Workspace", "Laserfiche", "Hyland OnBase", "DocuSign", "OneSpan Sign", "Grooper", "AI Strategy"],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Services",
+        "itemListElement": [
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Digital Transformation & Automation for SMBs", "url": "https://x-tech.tv/services.html#smb-support"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Enterprise Software Implementation", "url": "https://x-tech.tv/services.html#channel-partner"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Consultant Enablement & Advisory", "url": "https://x-tech.tv/services.html#consultant-consultation"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Corporate DNA™ Operational Diagnostic", "url": "https://x-tech.tv/#dna"}}
+        ]
+      }
+    }
+    </script>
+
+    {% include analytics.html %}
 </head>
 <body>
     {% include header.html %}
-    
+
     {{ content }}
 
     {% include footer.html %}

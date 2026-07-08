@@ -1,4 +1,4 @@
-<!-- LLM-Powered Intelligent Chat Widget with Calendar Scheduling -->
+<!-- LLM-Powered Intelligent Chat Widget with lead qualification, contextual greetings & exit intent -->
 <div id="chat-widget">
     <!-- Chat Button -->
     <button id="chat-button" class="chat-button" aria-label="Open chat">
@@ -16,7 +16,7 @@
     <div id="chat-window" class="chat-window">
         <div class="chat-header">
             <div class="chat-header-info">
-                <img src="logo.png" alt="X-Tech" class="chat-logo">
+                <img src="logo.webp" alt="X-Tech" class="chat-logo">
                 <div>
                     <h3>X-Tech AI Assistant</h3>
                     <p class="chat-status"><span class="status-dot"></span> Online</p>
@@ -31,7 +31,7 @@
 
         <div class="chat-body">
             <div class="chat-messages" id="chat-messages">
-                <!-- Messages will be added here dynamically -->
+                <!-- Messages added dynamically -->
             </div>
 
             <!-- Typing Indicator -->
@@ -44,7 +44,7 @@
             <!-- Chat Input -->
             <div class="chat-input-container" id="chat-input-container">
                 <textarea id="chat-input" placeholder="Ask me anything..." rows="1"></textarea>
-                <button type="button" id="send-button" class="chat-send-button">
+                <button type="button" id="send-button" class="chat-send-button" aria-label="Send message">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="22" y1="2" x2="11" y2="13"></line>
                         <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
@@ -98,70 +98,121 @@ document.addEventListener('DOMContentLoaded', function() {
     let chatOpen = false;
     let conversationHistory = [];
     let isProcessing = false;
+    let transcriptSaved = false;
+    let leadProfile = { interest: null };
+
+    function track(name) {
+        if (window.xtechTrack) window.xtechTrack(name, { location: window.location.pathname });
+    }
+
+    // ============================================
+    // Contextual greetings per page
+    // ============================================
+    function getContextualGreeting() {
+        const path = window.location.pathname;
+        if (window.location.hash === '#dna' || sessionStorage.getItem('xt_dna_interest')) {
+            return "Hi! 👋 Curious about <strong>Corporate DNA™</strong>? I can explain what a DNA briefing covers, or help you request one right here.";
+        }
+        if (path.indexOf('services') !== -1) {
+            return "Hi! 👋 Looking through our services? Tell me a bit about your business and I'll point you to the right solution — or connect you with our team.";
+        }
+        if (path.indexOf('careers') !== -1) {
+            return "Hi! 👋 Interested in joining X-Tech? I can tell you about our culture, what we look for, and how to apply.";
+        }
+        if (path.indexOf('story') !== -1) {
+            return "Hi! 👋 That's 25+ years of transformation history you're looking at. Want to know how that experience could apply to your business?";
+        }
+        return "Hi there! 👋 I'm the X-Tech AI Assistant. What brings you in today?";
+    }
+
+    // ============================================
+    // Quick-reply qualification chips
+    // ============================================
+    function showQuickReplies() {
+        if (document.getElementById('quick-replies')) return;
+        const qr = document.createElement('div');
+        qr.id = 'quick-replies';
+        qr.className = 'quick-replies';
+        const options = [
+            { label: '⚙️ Automating my business', value: 'I want to automate manual processes in my business' },
+            { label: '💻 Software help', value: 'I need help with software implementation or support' },
+            { label: '🧬 Corporate DNA™', value: 'Tell me about Corporate DNA' },
+            { label: '📅 Book a call', value: '__schedule__' }
+        ];
+        options.forEach(opt => {
+            const b = document.createElement('button');
+            b.className = 'quick-reply';
+            b.textContent = opt.label;
+            b.addEventListener('click', function() {
+                qr.remove();
+                if (opt.value === '__schedule__') {
+                    track('chat_quick_schedule');
+                    window.open(CALENDAR_URL, '_blank');
+                    return;
+                }
+                leadProfile.interest = opt.label;
+                track('chat_quick_reply');
+                addMessage(opt.value, false);
+                getLLMResponse(opt.value);
+            });
+            qr.appendChild(b);
+        });
+        chatMessages.appendChild(qr);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
 
     // ============================================
     // Initialize Chat
     // ============================================
     function initializeChat() {
-        addBotMessage(`Hi there! 👋<br><br>I'm the X-Tech AI Assistant. I can answer questions about our services, pricing, company, and more.<br><br>How can I help you today?`);
-
-        // Show badge after delay
-        setTimeout(() => {
-            chatBadge.style.display = 'flex';
-        }, 3000);
+        addBotMessage(getContextualGreeting());
+        showQuickReplies();
     }
 
+    // Show badge after delay (attention nudge)
+    setTimeout(() => {
+        if (!chatOpen) chatBadge.style.display = 'flex';
+    }, 3000);
+
     // ============================================
-    // Message Management
+    // Exit intent (desktop): once per session
+    // ============================================
+    document.addEventListener('mouseout', function(e) {
+        if (e.clientY > 10 || e.relatedTarget) return;
+        if (sessionStorage.getItem('xt_exit_shown') || chatOpen) return;
+        sessionStorage.setItem('xt_exit_shown', '1');
+        track('exit_intent_shown');
+        openChat();
+        if (chatMessages.children.length === 0) {
+            addBotMessage("Before you go — most owners we talk to are losing hours every week to manual processes. Want a <strong>free 30-minute consultation</strong> to see what's possible? No pitch, just a diagnosis.", 0, true);
+            showQuickReplies();
+        }
+    });
+
+    // ============================================
+    // Message formatting
     // ============================================
     function formatBotMessage(text) {
-        // Convert markdown-style formatting to HTML
-        let formatted = text;
-
-        // Convert **bold** to <strong>
-        formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-
-        // Split into lines
+        let formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
         let lines = formatted.split('\n');
         let html = '';
         let inList = false;
-
         for (let i = 0; i < lines.length; i++) {
             let line = lines[i].trim();
-
             if (!line) {
-                // Empty line - close list if open, add spacing
-                if (inList) {
-                    html += '</ul>';
-                    inList = false;
-                }
+                if (inList) { html += '</ul>'; inList = false; }
                 html += '<br>';
                 continue;
             }
-
-            // Check if line is a bullet point (starts with - or *)
             if (line.match(/^[-*]\s+/)) {
-                if (!inList) {
-                    html += '<ul style="margin: 0.5em 0; padding-left: 1.5em;">';
-                    inList = true;
-                }
-                // Remove the bullet character and add as list item
+                if (!inList) { html += '<ul style="margin: 0.5em 0; padding-left: 1.5em;">'; inList = true; }
                 html += '<li>' + line.replace(/^[-*]\s+/, '') + '</li>';
             } else {
-                // Regular line
-                if (inList) {
-                    html += '</ul>';
-                    inList = false;
-                }
+                if (inList) { html += '</ul>'; inList = false; }
                 html += line + '<br>';
             }
         }
-
-        // Close list if still open
-        if (inList) {
-            html += '</ul>';
-        }
-
+        if (inList) html += '</ul>';
         return html;
     }
 
@@ -171,8 +222,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const now = new Date();
         const timeString = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-
-        // Format bot messages to convert markdown to HTML
         const formattedText = isBot ? formatBotMessage(text) : text;
 
         let actionsHtml = '';
@@ -198,7 +247,6 @@ document.addEventListener('DOMContentLoaded', function() {
         chatMessages.appendChild(messageDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
 
-        // Store in conversation history (strip HTML)
         conversationHistory.push({
             sender: isBot ? 'bot' : 'user',
             message: text.replace(/<[^>]*>/g, ''),
@@ -233,22 +281,17 @@ document.addEventListener('DOMContentLoaded', function() {
     async function getLLMResponse(userMessage) {
         try {
             showTypingIndicator();
-
-            // Use FormData to avoid CORS preflight
             const formData = new FormData();
             formData.append('payload', JSON.stringify({
                 action: 'chat',
                 message: userMessage,
                 conversationHistory: conversationHistory,
+                leadProfile: leadProfile,
                 pageUrl: window.location.href,
                 timestamp: new Date().toISOString()
             }));
 
-            const response = await fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST',
-                body: formData
-            });
-
+            const response = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: formData });
             const data = await response.json();
             hideTypingIndicator();
 
@@ -258,31 +301,62 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 throw new Error(data.message || 'Unknown error');
             }
-
         } catch (error) {
             hideTypingIndicator();
             console.error('LLM Error:', error);
-
-            // Fallback response
             addBotMessage(`I'm having trouble connecting right now. 😕<br><br>You can:<br>• Call us: (405) 247-0083<br>• Email: sales@x-tech.tv<br>• Try asking again in a moment`, 0, true);
         }
     }
 
     // ============================================
+    // Transcript capture — sends the conversation
+    // to your Apps Script backend so no lead is lost,
+    // even if the visitor never fills out the form.
+    // ============================================
+    function saveTranscript(reason) {
+        if (transcriptSaved) return;
+        const userMsgs = conversationHistory.filter(m => m.sender === 'user').length;
+        if (userMsgs < 2) return; // only meaningful conversations
+        transcriptSaved = true;
+        const payload = JSON.stringify({
+            action: 'save_transcript',
+            reason: reason,
+            leadProfile: leadProfile,
+            conversationHistory: conversationHistory,
+            pageUrl: window.location.href,
+            timestamp: new Date().toISOString()
+        });
+        const fd = new FormData();
+        fd.append('payload', payload);
+        if (navigator.sendBeacon) {
+            navigator.sendBeacon(GOOGLE_SCRIPT_URL, fd);
+        } else {
+            fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: fd, keepalive: true });
+        }
+    }
+
+    window.addEventListener('pagehide', function() { saveTranscript('visitor_left'); });
+
+    // ============================================
     // UI Event Handlers
     // ============================================
-    chatButton.addEventListener('click', function() {
-        chatOpen = !chatOpen;
-        chatWindow.classList.toggle('open');
-        chatButton.classList.toggle('open');
+    function openChat() {
+        chatOpen = true;
+        chatWindow.classList.add('open');
+        chatButton.classList.add('open');
         chatBadge.style.display = 'none';
+        if (chatMessages.children.length === 0) initializeChat();
+        chatInput.focus();
+        track('chat_open');
+    }
 
-        if (chatOpen && chatMessages.children.length === 0) {
-            initializeChat();
-        }
-
+    chatButton.addEventListener('click', function() {
         if (chatOpen) {
-            chatInput.focus();
+            chatOpen = false;
+            chatWindow.classList.remove('open');
+            chatButton.classList.remove('open');
+        } else {
+            openChat();
         }
     });
 
@@ -295,16 +369,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Send message
     async function sendMessage() {
         const message = chatInput.value.trim();
-
         if (message && !isProcessing) {
             isProcessing = true;
             sendButton.disabled = true;
+            const qr = document.getElementById('quick-replies');
+            if (qr) qr.remove();
 
             addMessage(message, false);
             chatInput.value = '';
             chatInput.style.height = 'auto';
+            track('chat_message');
 
-            // Get LLM response
             await getLLMResponse(message);
 
             isProcessing = false;
@@ -322,7 +397,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Auto-resize textarea
     chatInput.addEventListener('input', function() {
         this.style.height = 'auto';
         this.style.height = (this.scrollHeight) + 'px';
@@ -339,9 +413,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     cancelFormBtn.addEventListener('click', hideContactForm);
 
-    // ============================================
-    // Form Submission
-    // ============================================
     contactForm.addEventListener('submit', async function(e) {
         e.preventDefault();
 
@@ -356,7 +427,6 @@ document.addEventListener('DOMContentLoaded', function() {
         submitBtn.disabled = true;
 
         try {
-            // Use FormData to avoid CORS preflight
             const formData = new FormData();
             formData.append('payload', JSON.stringify({
                 action: 'submit_form',
@@ -364,27 +434,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 email: email,
                 phone: phone,
                 message: message,
+                leadProfile: leadProfile,
                 conversationHistory: conversationHistory,
                 timestamp: new Date().toISOString(),
                 source: 'LLM Chat Widget',
                 pageUrl: window.location.href
             }));
 
-            const response = await fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST',
-                body: formData
-            });
-
+            const response = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: formData });
             const data = await response.json();
 
             if (data.status === 'success') {
+                transcriptSaved = true; // form submission already includes the transcript
+                track('chat_lead_submit');
                 hideContactForm();
                 addBotMessage(`✅ Thank you, ${name}! Your message has been received.<br><br>We'll get back to you at ${email} within 24 hours.<br><br>For urgent matters, call us at (405) 247-0083.`, 500);
                 contactForm.reset();
             } else {
                 throw new Error(data.message || 'Submission failed');
             }
-
         } catch (error) {
             console.error('Submission error:', error);
             addBotMessage(`❌ <strong>Submission Error</strong><br><br>Please try emailing us directly at sales@x-tech.tv or call (405) 247-0083.`, 500);
@@ -398,78 +466,30 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <style>
-/* Message Content Formatting */
-.message-content {
-    line-height: 1.5;
-}
-
-.message-content ul {
-    margin: 0.5em 0;
-    padding-left: 1.5em;
-}
-
-.message-content li {
-    margin: 0.25em 0;
-}
-
-.message-content br + br {
-    display: block;
-    content: "";
-    margin-top: 0.5em;
-}
-
-.message-content strong {
-    font-weight: 600;
-    color: inherit;
-}
-
-/* Message Actions (Schedule/Contact buttons) */
-.message-actions {
+/* Quick-reply qualification chips */
+.quick-replies {
     display: flex;
-    gap: 0.5rem;
-    margin-top: 0.75rem;
     flex-wrap: wrap;
+    gap: 8px;
+    padding: 4px 0;
 }
 
-.action-btn {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    flex: 1;
-    min-width: 120px;
-}
-
-.schedule-btn {
-    background: linear-gradient(135deg, #1C888E 0%, #0F5A60 100%);
-    color: white;
-}
-
-.schedule-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(28, 136, 142, 0.4);
-}
-
-.form-btn {
+.quick-reply {
+    padding: 9px 14px;
+    border-radius: 999px;
+    border: 1.5px solid #1C888E;
     background: white;
-    color: #1C888E;
-    border: 2px solid #1C888E;
+    color: #0F5A60;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
 }
 
-.form-btn:hover {
+.quick-reply:hover {
     background: #1C888E;
     color: white;
-}
-
-.chat-footer a {
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.chat-footer a:hover {
-    text-decoration: underline;
+    transform: translateY(-2px);
 }
 </style>
