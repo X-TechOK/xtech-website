@@ -5,6 +5,8 @@ date: 2026-11-13 12:00:00 -0600
 categories: [Leadership]
 tags: [business continuity, Microsoft 365, vendor strategy, resilience, automation]
 published: true
+image: /assets/images/blog/one-vendor-to-blame-isnt-a-continuity-plan.jpg
+image_alt: "A basket of eggs labeled with technology icons, one cracked and glowing green, illustrating a single point of failure"
 cta_heading: "Is your technology strategy aligned with your business strategy?"
 cta_text: "If you'd like to talk through what a more resilient, business-aligned strategy could look like for your organization, let's connect."
 ---

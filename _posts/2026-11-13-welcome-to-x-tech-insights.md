@@ -5,6 +5,8 @@ date: 2026-11-13
 categories: [Company News]
 tags: [automation, digitization, business transformation]
 published: true
+image: /assets/images/blog/welcome-to-x-tech-insights.jpg
+image_alt: "A central lightbulb connected to icons for documents, workflow, AI, automation and content management"
 ---
 
 Most businesses don't need more software. They need the software, people, and paperwork they already have to work together — without the manual workarounds that quietly eat hours every week.
