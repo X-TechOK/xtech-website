@@ -4,21 +4,50 @@ description: Business transformation, intelligent automation, and enterprise sof
 baseurl: "" # Leave empty for GitHub Pages root domain
 url: "https://x-tech.tv"
 
-# Analytics — paste your real IDs here after creating accounts (see SETUP-TRACKING-AND-SEO.md)
+# Analytics — paste your real IDs here after creating accounts (see docs/SETUP-TRACKING-AND-SEO.md)
 # Leave blank to disable. Nothing breaks while blank.
 ga4_id: "G-DL48ZHN0B0"
 clarity_id: "xj2beje0ip"
 
+# Links used in several places — change them here once and every page updates
+booking_url: "https://calendar.google.com/calendar/appointments/schedules/AcZssZ2uSOKodtmVHB_wPc6rUDklUM8oSZb-pTpbh-B0quILGAjkbSwmtRCR88ARiRgIMSwZ7ERBwBRG?gv=true"
+form_endpoint: "https://script.google.com/macros/s/AKfycbyGG9RydFdpKDYLsflPzcljk0DZ1ntrmAEkJ4SAM6FNUa64vSnRglIjlFot01TCOFW7/exec"
+
 # Build settings
 markdown: kramdown
+kramdown:
+  input: GFM          # lets blog posts use GitHub-style Markdown (tables, ``` code blocks)
+timezone: America/Chicago
+
+# ---------------------------------------------------------------------------
+# Blog ("Insights")
+# Posts live in _posts/ and are named YYYY-MM-DD-your-title.md
+# Each post's web address becomes  https://x-tech.tv/blog/your-title/
+# See BLOG-GUIDE.md for the step-by-step.
+# ---------------------------------------------------------------------------
+permalink: /blog/:title/
+
+plugins:
+  - jekyll-feed      # builds /feed.xml so people (and feed readers) can follow the blog
+
+feed:
+  path: feed.xml
+  posts_limit: 20
+
+# Every post automatically uses the "post" layout — no need to type it each time
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
 
 # Exclude files from processing
+# IMPORTANT: this used to be "*.md", which would ALSO have hidden every blog
+# post. "[A-Z]*.md" hides only the capital-letter documentation files
+# (README.md, SETUP-GUIDE.md, BLOG-GUIDE.md, ...) and leaves _posts/ alone.
 exclude:
-  - "*.md"          # documentation stays in the repo but off the live site
+  - "[A-Z]*.md"     # documentation stays in the repo but off the live site
   - LICENSE
   - preview-home.html   # local preview only
-
-# Include directories
-include:
-  - _includes
-  - _layouts
+  - docs/               # setup notes and how-to guides (kept in the repo, not published)

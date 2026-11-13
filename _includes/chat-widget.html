@@ -16,7 +16,7 @@
     <div id="chat-window" class="chat-window">
         <div class="chat-header">
             <div class="chat-header-info">
-                <img src="logo.webp" alt="X-Tech" class="chat-logo">
+                <img src="/logo.webp" alt="X-Tech" class="chat-logo">
                 <div>
                     <h3>X-Tech AI Assistant</h3>
                     <p class="chat-status"><span class="status-dot"></span> Online</p>
@@ -75,8 +75,8 @@
 // ============================================
 // CONFIGURATION
 // ============================================
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyGG9RydFdpKDYLsflPzcljk0DZ1ntrmAEkJ4SAM6FNUa64vSnRglIjlFot01TCOFW7/exec';
-const CALENDAR_URL = 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ2uSOKodtmVHB_wPc6rUDklUM8oSZb-pTpbh-B0quILGAjkbSwmtRCR88ARiRgIMSwZ7ERBwBRG?gv=true';
+const GOOGLE_SCRIPT_URL = '{{ site.form_endpoint }}';
+const CALENDAR_URL = '{{ site.booking_url }}';
 
 // ============================================
 // LLM-Powered Chatbot System
@@ -216,13 +216,18 @@ document.addEventListener('DOMContentLoaded', function() {
         return html;
     }
 
+    function escapeHtml(str) {
+        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
     function addMessage(text, isBot = false, includeActions = false) {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${isBot ? 'bot-message' : 'user-message'}`;
 
         const now = new Date();
         const timeString = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-        const formattedText = isBot ? formatBotMessage(text) : text;
+        // Visitor text is shown as plain text (never as HTML) so nothing typed can change the page
+        const formattedText = isBot ? formatBotMessage(text) : escapeHtml(text);
 
         let actionsHtml = '';
         if (includeActions) {

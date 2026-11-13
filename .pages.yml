@@ -1,0 +1,70 @@
+# Settings for Pages CMS (https://app.pagescms.org) — a free visual editor
+# that writes blog posts straight into this GitHub repo.
+# You don't need to edit this file to write posts. See BLOG-GUIDE.md.
+
+media:
+  input: assets/images/blog      # where uploaded pictures are saved in the repo
+  output: /assets/images/blog    # how the website refers to them
+
+content:
+  - name: posts
+    label: Blog Posts
+    type: collection
+    path: _posts
+    filename: "{year}-{month}-{day}-{primary}.md"
+    view:
+      fields: [title, date, published]
+      primary: title
+      sort: [date, title]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: description
+        label: Summary (1–2 sentences — shown on the blog page, in Google, and on LinkedIn previews)
+        type: text
+        required: true
+      - name: date
+        label: Publish date
+        type: date
+        options:
+          format: yyyy-MM-dd
+      - name: published
+        label: Published (turn off to keep it as a hidden draft)
+        type: boolean
+        default: true
+      - name: categories
+        label: Topic
+        type: select
+        options:
+          values:
+            - Automation
+            - Digitization
+            - Laserfiche
+            - AI
+            - Leadership
+            - Company News
+          multiple: true
+          creatable: true
+      - name: tags
+        label: Tags (optional keywords)
+        type: string
+        list: true
+      - name: image
+        label: Cover image (optional — wide images work best, about 1200×630)
+        type: image
+      - name: image_alt
+        label: Cover image description (for accessibility)
+        type: string
+      - name: author
+        label: Author (optional — leave blank to show "X-Tech Team")
+        type: string
+      - name: body
+        label: Post
+        type: rich-text
+        options:
+          format: markdown

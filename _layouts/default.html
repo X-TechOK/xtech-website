@@ -10,20 +10,20 @@
     <link rel="canonical" href="{{ site.url }}{{ page.url | replace: 'index.html', '' }}">
 
     <!-- Open Graph (how links look when shared on LinkedIn, Facebook, etc.) -->
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
     <meta property="og:site_name" content="X-Tech Enterprises">
     <meta property="og:title" content="{{ page.title }} | X-Tech Enterprises">
     <meta property="og:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
     <meta property="og:url" content="{{ site.url }}{{ page.url | replace: 'index.html', '' }}">
-    <meta property="og:image" content="{{ site.url }}/og-image.png">
+    <meta property="og:image" content="{% if page.image %}{{ site.url }}{{ page.image }}{% else %}{{ site.url }}/og-image.png{% endif %}">{% unless page.image %}
     <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
+    <meta property="og:image:height" content="630">{% endunless %}
 
     <!-- Twitter / X cards -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ page.title }} | X-Tech Enterprises">
     <meta name="twitter:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
-    <meta name="twitter:image" content="{{ site.url }}/og-image.png">
+    <meta name="twitter:image" content="{% if page.image %}{{ site.url }}{{ page.image }}{% else %}{{ site.url }}/og-image.png{% endif %}">
 
     <!-- Icons -->
     <link rel="icon" type="image/png" href="{{ site.baseurl }}/favicon.png">
@@ -35,6 +35,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css">
+    <link rel="alternate" type="application/rss+xml" title="X-Tech Insights" href="{{ site.url }}/feed.xml">
 
     <!-- Structured data: tells Google and AI assistants exactly what this business is -->
     <script type="application/ld+json">
@@ -71,6 +72,24 @@
       }
     }
     </script>
+
+    {% if page.layout == 'post' %}
+    <!-- Article structured data (blog posts only) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": {{ page.title | jsonify }},
+      "description": {{ page.description | default: page.excerpt | strip_html | strip_newlines | truncate: 160 | jsonify }},
+      "datePublished": "{{ page.date | date_to_xmlschema }}",
+      "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
+      "author": {% if page.author %}{"@type": "Person", "name": {{ page.author | jsonify }}}{% else %}{"@type": "Organization", "name": "X-Tech Enterprises"}{% endif %},
+      "publisher": {"@id": "https://x-tech.tv/#organization"},
+      "image": "{% if page.image %}{{ site.url }}{{ page.image }}{% else %}{{ site.url }}/og-image.png{% endif %}",
+      "mainEntityOfPage": "{{ site.url }}{{ page.url }}"
+    }
+    </script>
+    {% endif %}
 
     {% include analytics.html %}
 </head>

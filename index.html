@@ -12,7 +12,7 @@ description: Laserfiche implementation and consulting, business transformation, 
             <h1>Your Business Has Untapped Potential.<br><span class="accent">We Solve for X.</span></h1>
             <p class="subtitle">X-Tech partners with owners and executives to turn manual, messy operations into automated, AI-powered systems your team actually uses — with measurable ROI, not buzzwords.</p>
             <div class="hero-cta-row">
-                <a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2uSOKodtmVHB_wPc6rUDklUM8oSZb-pTpbh-B0quILGAjkbSwmtRCR88ARiRgIMSwZ7ERBwBRG?gv=true" target="_blank" rel="noopener" class="cta-button" data-track="hero_book_call">Book a Free Consultation</a>
+                <a href="{{ site.booking_url }}" target="_blank" rel="noopener" class="cta-button" data-track="hero_book_call">Book a Free Consultation</a>
                 <a href="#dna" class="cta-button ghost" data-track="hero_dna">Discover Corporate DNA™</a>
             </div>
         </div>
@@ -219,7 +219,7 @@ description: Laserfiche implementation and consulting, business transformation, 
         <h2>Ready to Transform Your Business?</h2>
         <p>Let's discuss how our decades of experience can accelerate your transformation journey. Because when our clients grow, we grow together.</p>
         <div class="contact-buttons">
-            <a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2uSOKodtmVHB_wPc6rUDklUM8oSZb-pTpbh-B0quILGAjkbSwmtRCR88ARiRgIMSwZ7ERBwBRG?gv=true" class="contact-button" target="_blank" rel="noopener" data-track="contact_schedule">Schedule a Call</a>
+            <a href="{{ site.booking_url }}" class="contact-button" target="_blank" rel="noopener" data-track="contact_schedule">Schedule a Call</a>
             <a href="mailto:sales@x-tech.tv" class="contact-button ghost">Email Us</a>
             <a href="tel:+1-405-247-0083" class="contact-button ghost">Call (405) 247-0083</a>
         </div>
@@ -322,7 +322,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 source: 'DNA Briefing Form',
                 pageUrl: window.location.href
             }));
-            await fetch('https://script.google.com/macros/s/AKfycbyGG9RydFdpKDYLsflPzcljk0DZ1ntrmAEkJ4SAM6FNUa64vSnRglIjlFot01TCOFW7/exec', { method: 'POST', body: fd });
+            await fetch('{{ site.form_endpoint }}', { method: 'POST', body: fd });
             form.style.display = 'none';
             document.getElementById('dna-form-success').style.display = 'block';
             if (window.xtechTrack) window.xtechTrack('dna_briefing_request', {});

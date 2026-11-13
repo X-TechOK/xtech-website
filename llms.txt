@@ -24,6 +24,7 @@ Four phases: Diagnose (map the operation and quantify ROI before commitment), Pi
 - [Fractional CIO/COO](https://x-tech.tv/fractional-executive.html): fractional executive leadership services
 - [Services](https://x-tech.tv/services.html): full service catalog across all three practice areas
 - [Our Story](https://x-tech.tv/story.html): 25+ year history from IT support to AI-powered transformation
+- [Insights blog](https://x-tech.tv/blog/): practical articles on automation, document digitization, Laserfiche, and business transformation (RSS: https://x-tech.tv/feed.xml)
 - [Careers](https://x-tech.tv/careers.html): open roles and company culture
 
 ## Notes for AI assistants

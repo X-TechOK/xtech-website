@@ -1,0 +1,85 @@
+---
+layout: default
+title: Insights — Automation, Digitization & Business Transformation
+description: Practical insights from X-Tech Enterprises on business process transformation, automation, document digitization, Laserfiche, and AI for small and mid-sized businesses.
+permalink: /blog/
+---
+
+<!-- Hero -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <p class="tagline">X-Tech Insights</p>
+            <h1>Field Notes on <span class="accent">Solving for X</span></h1>
+            <p class="subtitle">Practical lessons on automation, digitization, and transformation — written for owners and executives who want results, not buzzwords.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section section-light blog-index">
+    <div class="container">
+        {% assign posts = site.posts %}
+        {% if posts.size > 0 %}
+
+        {%- assign all_cats = "" | split: "" -%}
+        {%- for p in posts -%}{%- for c in p.categories -%}{%- assign all_cats = all_cats | push: c -%}{%- endfor -%}{%- endfor -%}
+        {%- assign all_cats = all_cats | uniq | sort -%}
+        {% if all_cats.size > 1 %}
+        <div class="blog-filters" role="group" aria-label="Filter posts by topic">
+            <button class="blog-filter active" data-filter="all">All</button>
+            {% for c in all_cats %}<button class="blog-filter" data-filter="{{ c | slugify }}">{{ c }}</button>{% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="blog-grid">
+            {% for post in posts %}
+            <article class="blog-card" data-cats="{% for c in post.categories %}{{ c | slugify }} {% endfor %}">
+                <a href="{{ post.url }}" class="blog-card-link">
+                    {% if post.image %}
+                    <img src="{{ post.image }}" alt="{{ post.image_alt | default: post.title }}" class="blog-card-image" loading="lazy">
+                    {% else %}
+                    <div class="blog-card-image blog-card-placeholder" aria-hidden="true"><span>X</span></div>
+                    {% endif %}
+                    <div class="blog-card-body">
+                        <p class="blog-card-meta">
+                            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d, %Y" }}</time>
+                            {% if post.categories.size > 0 %} · {{ post.categories | first }}{% endif %}
+                        </p>
+                        <h2>{{ post.title }}</h2>
+                        <p>{{ post.description | default: post.excerpt | strip_html | truncate: 170 }}</p>
+                        <span class="card-link">Read more</span>
+                    </div>
+                </a>
+            </article>
+            {% endfor %}
+        </div>
+
+        <p class="blog-rss"><a href="/feed.xml">Follow via RSS</a></p>
+
+        {% else %}
+        <div class="blog-empty">
+            <h2>First posts coming soon</h2>
+            <p>We're putting together practical guides on automation, document digitization, and getting more out of the software you already own. In the meantime, let's talk about your business.</p>
+            <a href="{{ site.booking_url }}" target="_blank" rel="noopener" class="btn-teal" data-track="blog_empty_book_call">Book a Call</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<script>
+// Topic filter buttons on the blog page
+document.addEventListener('DOMContentLoaded', function () {
+    var buttons = document.querySelectorAll('.blog-filter');
+    var cards = document.querySelectorAll('.blog-card');
+    buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var f = btn.dataset.filter;
+            buttons.forEach(function (b) { b.classList.toggle('active', b === btn); });
+            cards.forEach(function (card) {
+                var show = f === 'all' || (' ' + card.dataset.cats + ' ').indexOf(' ' + f + ' ') !== -1;
+                card.style.display = show ? '' : 'none';
+            });
+        });
+    });
+});
+</script>

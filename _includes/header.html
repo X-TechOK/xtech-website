@@ -2,8 +2,8 @@
 <header>
     <nav class="container">
         <div class="logo">
-            <a href="index.html" aria-label="X-Tech Enterprises home">
-                <img src="logo.webp" alt="X-Tech Enterprises Logo" class="logo-img" width="141" height="48">
+            <a href="/" aria-label="X-Tech Enterprises home">
+                <img src="/logo.webp" alt="X-Tech Enterprises Logo" class="logo-img" width="141" height="48">
             </a>
         </div>
         <button class="mobile-menu-toggle" aria-label="Toggle navigation menu">
@@ -12,12 +12,20 @@
             <span></span>
         </button>
         <ul class="nav-links">
-            <li><a href="services.html">Services</a></li>
-            <li><a href="index.html#dna">Corporate DNA™</a></li>
-            <li><a href="story.html">Our Story</a></li>
-            <li><a href="careers.html">Careers</a></li>
-            <li><a href="index.html#contact">Contact</a></li>
-            <li><a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2uSOKodtmVHB_wPc6rUDklUM8oSZb-pTpbh-B0quILGAjkbSwmtRCR88ARiRgIMSwZ7ERBwBRG?gv=true" target="_blank" rel="noopener" class="nav-cta" data-track="nav_book_call">Book a Call</a></li>
+            <li class="has-dropdown">
+                <a href="/services.html" aria-haspopup="true">Services <span class="caret" aria-hidden="true">▾</span></a>
+                <ul class="dropdown">
+                    <li><a href="/services.html">All Services</a></li>
+                    <li><a href="/laserfiche.html">Laserfiche Consulting</a></li>
+                    <li><a href="/fractional-executive.html">Fractional CIO / COO</a></li>
+                </ul>
+            </li>
+            <li><a href="/#dna">Corporate DNA™</a></li>
+            <li><a href="/story.html">Our Story</a></li>
+            <li><a href="/blog/">Insights</a></li>
+            <li><a href="/careers.html">Careers</a></li>
+            <li><a href="/#contact">Contact</a></li>
+            <li><a href="{{ site.booking_url }}" target="_blank" rel="noopener" class="nav-cta" data-track="nav_book_call">Book a Call</a></li>
         </ul>
     </nav>
 </header>

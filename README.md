@@ -131,3 +131,19 @@ This is called "front matter" - it tells Jekyll:
 - [GitHub Pages Documentation](https://docs.github.com/en/pages)
 
 Remember: You don't need to install Jekyll locally. GitHub Pages does all the work automatically when you push your changes!
+
+## 📝 Blog ("Insights")
+
+The blog lives at **/blog/**. Posts are files in the `_posts` folder.
+See **BLOG-GUIDE.md** for the three ways to post (visual editor, GitHub.com, or with Claude)
+and **BLOG-POST-TEMPLATE.md** for a ready-to-copy post.
+
+## 🔗 Links used everywhere
+
+The "Book a Call" calendar link and the contact-form address are set once in `_config.yml`
+(`booking_url` and `form_endpoint`). Change them there and every page updates.
+
+## 📚 Older setup notes
+
+Guides for the chatbot, tracking/SEO, favicon, etc. are in the `docs/` folder.
+They stay in the repo but are not published on the website.
